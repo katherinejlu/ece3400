@@ -14,7 +14,7 @@ Cornell University, Prof. Kirstin Hagelskjær Petersen, Fall 2017
 
 ## Labs
 
-[Lab 1](https://www.google.com)
+[Lab 1](https://github.com/evankravitz/ECE-3400-Team-1/blob/master/lab1.md)
 
 
 
