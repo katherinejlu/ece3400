@@ -6,11 +6,11 @@ Cornell University, Prof. Kirstin Hagelskjær Petersen, Fall 2017
 |Name | Email |Photo|
 |-----|-------|-----|
 |Evan Kravitz| [esk95@cornell.edu](mailto:esk95@cornell.edu) | ![](./resources/evankravitz.jpg)|
-|Katherine Lu| kl645@cornell.edu | |
-|Jeffrey Hurd| jjh353@cornell.edu| ![](./resources/jeffreyhurd.jpg)|
-|Radhika Chinni| rpc222@cornell.edu | |
-|Frances Koback| flk26@cornell.edu| |
-|Michael Solomentsev| mys29@cornell.edu | |
+|Katherine Lu| [kl645@cornell.edu](mailto:kl645@cornell.edu) | |
+|Jeffrey Hurd| [jjh353@cornell.edu](mailto:jjh353@cornell.edu)| ![](./resources/jeffreyhurd.jpg)|
+|Radhika Chinni| [rpc222@cornell.edu](mailto:rpc222@cornell.edu) | |
+|Frances Koback| [flk26@cornell.edu](mailto:flk26@cornell.edu)| |
+|Michael Solomentsev| [mys29@cornell.edu](mailto:mys29@cornell.edu) | |
 
 ## Labs
 
