@@ -55,7 +55,7 @@ Here's a photo of the circuit:
 
 ## Part 4: Parallax Servos 
 
-For the final lab component, we actuated the angular velocity of the servos using the votlage read by the Arduino (controlled by series resistor and potentiometer). We utilized a similar mapping scheme as the previous part, except with different scaling to accomodate for the servo `write` function input. The Arduino code has been included below:
+For the final lab component, we actuated the angular velocity of the servos using the voltage read by the Arduino (controlled by series resistor and potentiometer). We utilized a similar mapping scheme as the previous part, except with different scaling to accomodate for the servo `write` function input. The Arduino code has been included below:
 
 ```
 #include <Servo.h>;
