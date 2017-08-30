@@ -25,6 +25,6 @@ void loop() {
 ```
 
 Here's a photo of the circuit:
-![alt text](./resources/6d352b7943044248b06bf93e79163291.jpeg")
+![](./resources/6d352b7943044248b06bf93e79163291.jpeg")
 
 
