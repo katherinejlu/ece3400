@@ -1,6 +1,6 @@
 # Minutes
 
-## 9/1 Meeting
+### 9/1 Meeting
 
 11:15 Upson 349
 

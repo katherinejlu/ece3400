@@ -15,10 +15,13 @@ Cornell University, Prof. Kirstin Hagelskjær Petersen, Fall 2017
 
 ## [Team Contract](https://docs.google.com/document/d/11ZBqf6RC5hrOcDreiL2vlYcdcat49vuX1CWatlyPSTk/edit?usp=sharing)
 
+
+## [Minutes](./minutes.md)
+
+
 ## Labs
 
 [Lab 1](./lab1.md)
 
-## [Minutes](./minutes.md)
 
 
