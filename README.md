@@ -19,5 +19,6 @@ Cornell University, Prof. Kirstin Hagelskjær Petersen, Fall 2017
 
 [Lab 1](./lab1.md)
 
+## [Minutes](./minutes.md)
 
 
