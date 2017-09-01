@@ -13,7 +13,7 @@ Cornell University, Prof. Kirstin Hagelskjær Petersen, Fall 2017
 |Michael Solomentsev| [mys29@cornell.edu](mailto:mys29@cornell.edu) | ![](./resources/michael.jpeg) |
 
 
-#Hello World!
+# Hello World!
 
 ## [Team Contract](https://docs.google.com/document/d/11ZBqf6RC5hrOcDreiL2vlYcdcat49vuX1CWatlyPSTk/edit?usp=sharing)
 
