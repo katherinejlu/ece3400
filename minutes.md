@@ -15,8 +15,7 @@ Everyone sends Evan headshots to add to the website
 Begin writing the contract.
 Various discussions about elements of the contract, etc (see contract for more details).
 Contract signed
-
-
-
-
-
+We talk about adding more pages to the website
+Michael will add robot stuff to the lab1 page
+How to submit? Email to kirsten?
+MEETING ADJOURNED at 12:06PM
