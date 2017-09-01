@@ -3,7 +3,7 @@ Cornell University, Fall 2017
 
 ## About Us
 
-|Name | Email |Photo|
+|Name | netId |Photo|
 |-----|-------|-----|
 |Evan Kravitz| [esk95     ](mailto:esk95@cornell.edu) | ![](./resources/evankravitz.jpg)|
 |Katherine Lu| [kl645     ](mailto:kl645@cornell.edu) | ![](./resources/katherinelu.jpeg) |
