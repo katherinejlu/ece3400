@@ -84,21 +84,23 @@ void loop() {
 Here's a photo of the circuit:
 ![](./resources/2fc07050c8674d979eb9044ecb1724d5.jpeg)
 
-Progress on Robot:
+##Progress on Robot:
 
 This week we also began working on the basic functionality of the robot. We used what we learned in Lab 1 to implement robot movement. 
 
 We first built the robot chassis using the 3D-printed and laser-etched parts already sitting in the lab room. We used:
 
-...* 1 robot base (the large red platform in the image)
-...* 2 servo mounts
-...* 2 continuous rotation servos
-...* 2 wheels
-...* 2 rubber bands
-...* 1 Arduino Uno
-...* 1 battery holder (with 2 AA batteries)
-...* 1 breadboard
-...* Various wires, screws, nuts, and spacers
+```
++- 1 robot base (the large red platform in the image)
++- 2 servo mounts
++- 2 continuous rotation servos
++- 2 wheels
++- 2 rubber bands
++- 1 Arduino Uno
++- 1 battery holder (with 2 AA batteries)
++- 1 breadboard
++- Various wires, screws, nuts, and spacers
+```
 
 The construction of the robot was a fairly simple, but time-consuming process. We modeled our prototype off of the existing robots sitting in the lab room. The Arduino sits on the top of the robot, and the servo mounts (and the accompanying servo-wheel pieces) sit below. See the images for more details. 
 
