@@ -107,8 +107,6 @@ The construction of the robot was a fairly simple, but time-consuming process. W
 ![](./resources/lab1robot1.jpg)
 ![](./resources/lab1robot2.jpg)
 
-Our power setup was somewhat less than ideal. Because the standard 5V battery packs were discharged (and according to the TAs, took a significant amount of time to charge), we relied on a battery holder with 2 AA batteries inside to power our servos. Because the batteries could not sit on the robot, we used a a breadboard to wire up the servo power lines (as well as the servo control lines). We also used the standard Arduino power supply cable to power the Arduino. The wiring was a bit messy, and the breadboard sat apart from the robot. This meant that when we actually made the servos move, we had to be very careful. Cleaning up the wiring (perhaps by using a protoboard) is a priority for us.
+Our power setup was somewhat less than ideal. Because the standard 5V battery packs were discharged (and according to the TAs, took a significant amount of time to charge), we relied on a battery holder with 2 AA batteries inside to power our servos. Because the batteries could not sit on the robot, we used a breadboard to wire up the servo power lines (as well as the servo control lines). We also used the standard Arduino power supply cable to power the Arduino. The wiring was a bit messy, and the breadboard sat apart from the robot. This meant that when we actually made the servos move, we had to be very careful. Cleaning up the wiring (perhaps by using a protoboard) is a priority for us.
 
-Once the robot was set up, we modified the code from Part 4 of the lab to control 2 servos. We programmed the servos to move in the same direction, so the robot spun in a little circle! This occurred because the servos are oriented in opposite directions on the actual robot chassis. The code is below:
-
-...INSERT CODE!!!!
+Once the robot was set up, we modified the code from Part 4 of the lab to control 2 servos. We programmed the servos to move in the same direction, so the robot spun in a little circle! This occurred because the servos are oriented in opposite directions on the actual robot chassis.
