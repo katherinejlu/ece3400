@@ -86,3 +86,27 @@ Here's a photo of the circuit:
 
 Progress on Robot:
 
+This week we also began working on the basic functionality of the robot. We used what we learned in Lab 1 to implement robot movement. 
+
+We first built the robot chassis using the 3D-printed and laser-etched parts already sitting in the lab room. We used:
+
+...* 1 robot base (the large red platform in the image)
+...* 2 servo mounts
+...* 2 continuous rotation servos
+...* 2 wheels
+...* 2 rubber bands
+...* 1 Arduino Uno
+...* 1 battery holder (with 2 AA batteries)
+...* 1 breadboard
+...* Various wires, screws, nuts, and spacers
+
+The construction of the robot was a fairly simple, but time-consuming process. We modeled our prototype off of the existing robots sitting in the lab room. The Arduino sits on the top of the robot, and the servo mounts (and the accompanying servo-wheel pieces) sit below. See the images for more details. 
+
+![](./resources/lab1robot1.jpg)
+![](./resources/lab1robot2.jpg)
+
+Our power setup was somewhat less than ideal. Because the standard 5V battery packs were discharged (and according to the TAs, took a significant amount of time to charge), we relied on a battery holder with 2 AA batteries inside to power our servos. Because the batteries could not sit on the robot, we used a a breadboard to wire up the servo power lines (as well as the servo control lines). We also used the standard Arduino power supply cable to power the Arduino. The wiring was a bit messy, and the breadboard sat apart from the robot. This meant that when we actually made the servos move, we had to be very careful. Cleaning up the wiring (perhaps by using a protoboard) is a priority for us.
+
+Once the robot was set up, we modified the code from Part 4 of the lab to control 2 servos. We programmed the servos to move in the same direction, so the robot spun in a little circle! This occurred because the servos are oriented in opposite directions on the actual robot chassis. The code is below:
+
+...INSERT CODE!!!!
