@@ -130,4 +130,4 @@ void loop() {
   delay(5000);
 }
 ```
-Since the arduino was still being powered by a cable to our computer, we couldn't get a vide of the robot moving autonomously. We could see the wheels of the robot moving as expected, but the arduino power cable prevented the robot from traveling too far from the laptop we were using. We hope to improve on this setup next time!
+Since the arduino was still being powered by a cable to our computer, we couldn't get a vide of the robot moving autonomously. We could see the wheels of the robot moving as expected, but the arduino power cable prevented the robot from traveling too far from the laptop we were using. We hope to improve on this setup and record a cool video of our robot next time!
