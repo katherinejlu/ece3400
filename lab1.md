@@ -109,4 +109,25 @@ The construction of the robot was a fairly simple, but time-consuming process. W
 
 Our power setup was somewhat less than ideal. Because the standard 5V battery packs were discharged (and according to the TAs, took a significant amount of time to charge), we relied on a battery holder with 2 AA batteries inside to power our servos. Because the batteries could not sit on the robot, we used a breadboard to wire up the servo power lines (as well as the servo control lines). We also used the standard Arduino power supply cable to power the Arduino. The wiring was a bit messy, and the breadboard sat apart from the robot. This meant that when we actually made the servos move, we had to be very careful. Cleaning up the wiring (perhaps by using a protoboard) is a priority for us.
 
-Once the robot was set up, we modified the code from Part 4 of the lab to control 2 servos. We programmed the servos to move in the same direction, so the robot spun in a little circle! This occurred because the servos are oriented in opposite directions on the actual robot chassis.
+Once the robot was set up, we modified the code from Part 4 of the lab to control 2 servos. We programmed the servos to move in the same direction, so the robot spun in a little circle! This occurred because the servos are oriented in opposite directions on the actual robot chassis. Once we realized this error, we modified the code so that one servo was rotating in the opposite direction of the other. The arduino code has been included below:
+
+```
+#include <Servo.h>
+Servo servo1;
+Servo servo2;
+ 
+// the setup function runs once when you press reset or power the board
+void setup() {
+  Serial.begin(9600);
+  servo1.attach(9);
+  servo2.attach(11);
+}
+ 
+// the loop function runs over and over again forever
+void loop() {
+  servo1.write(0);
+  servo2.write(180);
+  delay(5000);
+}
+```
+Since the arduino was still being powered by a cable to our computer, we couldn't get a vide of the robot moving autonomously. We could see the wheels of the robot moving as expected, but the arduino power cable prevented the robot from traveling too far from the laptop we were using. We hope to improve on this setup next time!
