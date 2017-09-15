@@ -23,7 +23,6 @@ We've also included a photo of the circuit:
 
 ![](./resources/lab2ircircuit.jpg)
 
-
 We then used the standard `fft` library to process the voltage signal. The Arduino has built-in hardware capable of processing the signal using the ADC (analog-to-digital) converter, which performs better than the regular `analogRead` function for high frequency data.
 
 The data was then transformed into the frequency-domain using the `fft` library. FFT--or Fast Fourier Transform--is a method used by computers to efficiently convert time-domain data into the frequency domain. We utilized the `fft_adc_serial` script to output a serial stream of frequency data. The `fft` takes advantage of the analog-to-digital converter. Each serial line of output corresponds to the amplitude of the input signal at a frequency related to the relative index of the line output. Each index corresponds to an integer multiple of the sampling frequency, so index *i* corresponds to frequency *f<sub>s</sub>i*, where *f<sub>s</sub>* is the sampling frequency. 
@@ -70,7 +69,7 @@ From there, we fed the microphone output to the Arduino and wrote to the Arduino
 ![](./resources/lab2_acoustic_data7.png)
 
 To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. Below is a video of the arduino LED responding to a 660 hz signal: 
-<video width="450" height="300" controls preload> 
+<video width="450" height="270" controls preload> 
     <source src="IMG_0198.mp4"></source> 
 </video>
 
