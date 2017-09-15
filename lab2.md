@@ -36,7 +36,7 @@ After gathering the FFT serial data, we plotted the data in MATLAB. Included bel
 
 Since the sampling frequency is 150 Hz, and the pulsating frequency of the IR signal is  7 kHz, we should see high ampilitude around bin index 46. The MATLAB plot clearly shows this feature at around that index value, demonstrating that the Arduino can detect IR signals.
 
-<video src="ECE-3400-Team-1/resources/IMG_0198.mp4" poster="whatever.png" width="320" height="200" controls preload></video>
+<video src="IMG_0198.mp4" poster="whatever.jpeg" width="320" height="200" controls preload></video>
 
 For future developments, we plan to use analog filtering to enhance the quality of the FFT data. In addition, to ensure that low intensity IR radiation can be detected, we plan to incorporate some sort of analog amplifier. We tried to use an op-amp to achieve this task for this lab, but were unable to get the circuit to perform properly. 
 
