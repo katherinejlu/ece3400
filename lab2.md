@@ -67,16 +67,10 @@ Once we built the circuit, we checked to see if it was working as expected.  We 
 
 From there, we fed the microphone output to the Arduino and wrote to the Arduino to check for spikes in bin 5, where the start signal of 660 hz would appear if detected by the microphone: 
 
-//detects input on bin 4 (600 Hz - 750 Hz) and performs start function
-if (fft_log_out[4] > 150) {
-      start();
-}
-void start() {
-  digitalWrite(13, HIGH);
-}
+![](./resources/lab2_acoustic_data7.png)
 
 To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. Below is a video of the arduino LED responding to a 660 hz signal: 
-<video width="450" height="350" controls preload> 
+<video width="450" height="300" controls preload> 
     <source src="IMG_0198.mp4"></source> 
 </video>
 
