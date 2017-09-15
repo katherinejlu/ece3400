@@ -25,5 +25,7 @@ Cornell University, Fall 2017
 
 [Lab 2](./lab2.md)
 
+[Milestone](./milestone1.md)
+
 
 
