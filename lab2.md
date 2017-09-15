@@ -60,7 +60,12 @@ And here's what our microphone circuit looked like:
 
 ![](./resources/lab2_acoustic_data4.png)
 
-Once we built the circuit, we checked to see if it was working as expected.  We found a free online tone generator as shown below.  We then played the tone off a computer next to the circuit and observed the results using an oscilloscope.  The oscilloscope showed that it was taking in data from the acoustics in the room, and generating a wave of frequency 660 Hz when the tone was played next to the circuit, as shown in the photo of the oscilloscope screen below.
+Once we built the circuit, we checked to see if it was working as expected.  We found a free online tone generator as shown below.  We then played the tone off a computer next to the circuit and observed the results using an oscilloscope. Our general set-up can be seen in this video below: 
+<video width="460" height="270" controls preload> 
+    <source src="resources/IMG_0196.mp4"></source> 
+</video>
+
+The oscilloscope showed that it was taking in data from the acoustics in the room, and generating a wave of frequency 660 Hz when the tone was played next to the circuit, as shown in the photo of the oscilloscope screen below.
 
 ![](./resources/lab2_acoustic_data5.png)
 
@@ -69,7 +74,7 @@ From there, we fed the microphone output to the Arduino and wrote to the Arduino
 ![](./resources/lab2_acoustic_data7.png)
 
 To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. Below is a video of the arduino LED responding to a 660 hz signal: 
-<video width="450" height="270" controls preload> 
+<video width="460" height="270" controls preload> 
     <source src="resources/IMG_0198.mp4"></source> 
 </video>
 
