@@ -81,5 +81,6 @@ To visually demonstrate the Arduino's ability to detect the start signal, we had
 At this point we were pleased with our results.  We realize that in the future, the tone may not be as loud as it was when it was played off a computer, and so we started building a simple Non-inverting Op Amp circuit to amplify the signal from the microphone.  The schematic we were going off is shown in a picture below:  
 
 ![](./resources/lab2_acoustic_data6.png)
+ http://www.electronics-tutorials.ws/opamp/opamp15.gif
 
 We did not implement this amplifier in this part of the lab, but we have built the amplifier and are ready to use it if we discover that it becomes necessary down the line.    
