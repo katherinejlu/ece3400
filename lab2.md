@@ -70,7 +70,7 @@ From there, we fed the microphone output to the Arduino and wrote to the Arduino
 
 To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. Below is a video of the arduino LED responding to a 660 hz signal: 
 <video width="450" height="270" controls preload> 
-    <source src="IMG_0198.mp4"></source> 
+    <source src="resources/IMG_0198.mp4"></source> 
 </video>
 
 At this point we were pleased with our results.  We realize that in the future, the tone may not be as loud as it was when it was played off a computer, and so we started building a simple Non-inverting Op Amp circuit to amplify the signal from the microphone.  The schematic we were going off is shown in a picture below:  
