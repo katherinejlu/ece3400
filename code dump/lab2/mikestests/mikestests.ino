@@ -56,10 +56,10 @@ void loop() {
 boolean goStraight(){
   if(isLeft()){
     Serial.println("is Left of line");
-    leftSpeed =140;
+    leftSpeed =leftSpeed+2;
   }
   else if(isRight()){
-    rightSpeed =50;
+    rightSpeed = rightSpeed+2;
     Serial.println("is Right of line");
   }
   else if((abs(line[1] - line[2])>=200) && (abs(line[1] - line[0])>=200)){
