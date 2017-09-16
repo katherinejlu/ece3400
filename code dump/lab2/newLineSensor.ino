@@ -13,6 +13,7 @@ int line[2]; //array to maintain line location betwee n3 sensors
  * line[2] = right sensor
  */
 int leftSpeed=135;
+int track = 0; 
 int rightSpeed=45; //assume right servo is in backwards orientation 
 
 /*for sensor ranges:
@@ -55,7 +56,13 @@ void loop() {
   Serial.print("\t");
   Serial.print(line[1]);
   Serial.print("\t"); 
-  Serial.println(line[2]);
+  Serial.print(line[2]);
+  Serial.print("\t");
+  Serial.print("Left wheel speed:");
+  Serial.print(leftSpeed);
+  Serial.print("\t");
+  Serial.print("Right wheel speed:");
+  Serial.println(rightSpeed);
   goStraight();
 
   if(isJunction()) {  //for now, robot just stops when it reaches a juncition.
@@ -88,13 +95,17 @@ void loop() {
     rightSpeed = 45;
   }
   
-boolean goStraight(){
+void goStraight(){
+    leftSpeed = 135;
+    rightSpeed = 45;
   if(isLeft()){
     Serial.println("is Left of line");
-    leftSpeed +=2;
+    leftSpeed +=5;
+    rightSpeed +=5;
   }
   else if(isRight()){
-    rightSpeed -+2;
+    leftSpeed -= 5;
+    rightSpeed -=5;
     Serial.println("is Right of line");
   }
   else if((abs(line[1] - line[2])>=200) && (abs(line[1] - line[0])>=200)){
