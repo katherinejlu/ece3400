@@ -12,7 +12,7 @@ void setup() {
   pinMode(13, OUTPUT);
   //myserialport = serial("/dev/cu.usbmodem1421 (Arduino/Genuino Uno)",'BaudRate',9600)
   TIMSK0 = 0; // turn off timer0 for lower jitter
-  ADCSRA = 0xe5; // set the adc to free running mode, 11100101, prescalar 32
+  ADCSRA = 0xe7; // set the adc to free running mode, changed from prescalar 32 to 128
   ADMUX = 0x40; // use adc0
   DIDR0 = 0x01; // turn off the digital input for adc0
 }
@@ -23,7 +23,7 @@ void loop() {
     cli();  // UDRE interrupt slows this way down on arduino1.0
     for (int i = 0 ; i < 512 ; i += 2) { // save 256 samples
       while(!(ADCSRA & 0x10)); // wait for adc to be ready
-      ADCSRA = 0xf5; // restart adc
+      ADCSRA = 0xf7; // restart adc
       byte m = ADCL; // fetch adc data
       byte j = ADCH;
       int k = (j << 8) | m; // form into an int
@@ -37,8 +37,8 @@ void loop() {
     fft_run(); // process the data in the fft
     fft_mag_log(); // take the output of the fft
 
-    //detects input on bin 4 (600 Hz - 750 Hz) and performs start function
-    if (fft_log_out[4] > 150) {
+    //detects input on bin 19 and performs start function
+    if (fft_log_out[18] > 120) {
       start();
     }
 
