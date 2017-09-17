@@ -117,7 +117,18 @@ We opened the example script from the FFT library named fft_adc_serial, and test
 
 ![](./resources/lab2_acoustic_data2.png)
 
-Our peak voltage for every trial we ran occurred at the 5th data point.  We computed expected peak voltage as follows: 9600 Hz sampling frequency / 256 data points = 37.5 Hz/ point.  By this logic, the 660 Hz frequency peak should have occurred around the 17th data point, because 660 Hz/ 37.5 = 17.6.  We concluded that we must be sampling at a higher frequency than 9600 Hz.  In fact, our math suggests that we are actually sampling at a frequency of around 40,000 Hz.  40,000 Hz/ 256 data points= 156.25 Hz/ data point.  5th point * 156.25 Hz/ data point= 781.25 Hz.  4th point *156.25 Hz/ data point = 625 Hz.  So a frequency of 660 Hz would indeed occur in the 5th bin and at the 5th point if our system was being sampled at a rate of 40 kHz. 
+Our peak voltage for every trial we ran occurred at the 5th data point or "bin".
+
+To compute the frequency width of each bin, we consulted the ADC section of the ATmega328 datasheet. We found that the last 3 bits of the ADC Control and Status Register (ADCSRA) determines the division factor between the system clock frequency and the input clock to the ADC. In the fft_adc_serial code, ADCSRA was written 0xe5, making the division factor = 32.
+
+Thus, we calculated the sampling frequency:
+ADC sampling frequency = 16 MHz (system clock frequency) / 32 (division factor) / 13 (conversion time) = 38 kHz
+
+Finally, the bin frequency width was calculated as follows:
+Bin width = 38 kHz (sampling frequency) / 256 samples = 150 Hz / sample
+
+Therefore, bin 5 contains the range of frequencies 600 - 750 Hz, which matches our data.
+
 
 ### Building the circuit:
 After we got this initial data, we started building our microphone circuit.  The figure below shows the schematic of the circuit we went off from the course website.
@@ -137,16 +148,65 @@ The oscilloscope showed that it was taking in data from the acoustics in the roo
 
 ![](./resources/lab2_acoustic_data5.png)
 
-From there, we fed the microphone output to the Arduino and wrote to the Arduino to check for spikes in bin 5, where the start signal of 660 hz would appear if detected by the microphone: 
+From there, we fed the microphone output to the Arduino and wrote to the Arduino to check for spikes in bin 5, where the start signal of 660 Hz would appear if detected by the microphone: 
 
 ![](./resources/lab2_acoustic_data7.png)
 
-To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. Below is a video of the arduino LED responding to a 660 hz signal: 
+To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. 
+
+In the loop code, we checked for an peak in bin 5:
+```
+//detects input on bin 5 and performs start function
+if (fft_log_out[4] > 120) {
+	start();
+}
+
+```
+
+Then we created a "start" method:
+```
+/*This function will "start" the robot and perform any functions necessary
+for operation. Right now it turns on an LED.
+*/
+void start() {
+  digitalWrite(13, HIGH);
+}
+
+```
+
+Below is a video of the arduino LED responding to a 660 Hz signal: 
 <video width="460" height="270" controls preload> 
     <source src="resources/IMG_0198.mp4"></source> 
 </video>
 
-At this point we were pleased with our results.  We realize that in the future, the tone may not be as loud as it was when it was played off a computer, and so we started building a simple Non-inverting Op Amp circuit to amplify the signal from the microphone.  The schematic we were going off is shown in a picture below:  
+
+### Distinguishing between 585 Hz and 735 Hz:
+Now that the Arduino could detect a 660 Hz tone, we wanted to determine if it could distinguish between a 585 Hz and 735 Hz tone. We set the oscilloscope to these frequencies and took the FFT using the previous fft_adc_serial code. However, there was an immediate issue -- 585 Hz and 660 Hz were both in bin 5:
+
+![](./resources/FFT32.png)
+
+In order to fix this issue, we had to decrease the bin size by changing the division factor. To do this, we changed the last 3 bits of ADCSRA to 111. This corresponds to a division factor of 128. Now, the three tones were located in distinct bins.
+
+![](./resources/FFT128.png)
+
+Using our previous equation with the new prescaler, we calculated the bin width to be 37.5 Hz and 660 Hz to be located in the 17th bin. However, the 660 Hz tone was repeatedly located in bin 19. We weren't able to determine the cause of this discrepancy. In any case, we updated the code to detect for a peak in bin 19.
+```
+//detects input on bin 19 and performs start function
+if (fft_log_out[4] > 120) {
+	start();
+}
+
+```
+
+
+Since the oscilloscope input worked, we also wanted to try an audio input. We played the 585 Hz tone, then the 735 Hz tone, and finally the 660 Hz tone which causes the LED to light up:
+<video width="460" height="270" controls preload> 
+    <source src="resources/lab2_tones.mov"></source> 
+</video>
+
+### Amplifier Circuit
+
+We realize that in the future, the tone may not be as loud as it was when it was played off a computer, and so we started building a simple Non-inverting Op Amp circuit to amplify the signal from the microphone.  The schematic we were going off is shown in a picture below:  
 
 ![](./resources/lab2_acoustic_data6.png)
  http://www.electronics-tutorials.ws/opamp/opamp15.gif
