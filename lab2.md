@@ -49,23 +49,23 @@ We selected an arbitrary capacitor and then calibrated the resistance of the res
 
 Below is a photo of the full circuit:
 
-![](./resources/(ircircuit.JPG)
+![](./resources/ircircuit.JPG)
 
 
 Here are the values of the components we used:
 
-- R<sub>3 = 9.7 kΩ
-- R<sub>4 = 47.9 kΩ
-- R<sub>2 = 8 kΩ
-- R<sub>1 = 1.78 kΩ 
-- C<sub>1 = 3.3 nF
+- R<sub>3<\sub> = 9.7 kΩ
+- R<sub>4 <\sub>= 47.9 kΩ
+- R<sub>2<\sub> = 8 kΩ
+- R<sub>1<\sub> = 1.78 kΩ 
+- C<sub>1<\sub> = 3.3 nF
 
 
-The gain of our amplifier was roughly 6 (A<sub>v = 1 + R<sub>4/R<sub>3) . That is, our input voltage would be multiplied by a factor of 6 at the output of the amplifier. 
+The gain of our amplifier was roughly 6 (A<sub>v<\sub> = 1 + R<sub>4<\sub>/R<sub>3<\sub>) . That is, our input voltage would be multiplied by a factor of 6 at the output of the amplifier. 
 
 Here is the oscilloscope reading of the input voltage and output (amplified) voltage:
 
-![](./resources/(irscope.JPG)
+![](./resources/irscope.JPG)
 
 The final step was to have the Arduino perform some action in response to detecting the frequency. 
 
