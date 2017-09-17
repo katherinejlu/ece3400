@@ -1,19 +1,19 @@
 # ECE 3400 Team 1
 Cornell University, Fall 2017
 
-## [Team Contract](https://docs.google.com/document/d/11ZBqf6RC5hrOcDreiL2vlYcdcat49vuX1CWatlyPSTk/edit?usp=sharing)
-
-
-## [Minutes](./minutes.md)
-
-
 ## Labs
 
 [Lab 1](./lab1.md) 
 
 [Lab 2](./lab2.md)
 
-[Milestone](./milestone1.md)
+[Milestone 1](./milestone1.md)
+
+##Team Logistics
+
+[Team Contract](https://docs.google.com/document/d/11ZBqf6RC5hrOcDreiL2vlYcdcat49vuX1CWatlyPSTk/edit?usp=sharing)
+
+[Minutes](./minutes.md)
 
 ## About Us
 
