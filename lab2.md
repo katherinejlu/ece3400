@@ -12,6 +12,7 @@ Materials used:
 - Arduino Uno
 - USB serial cable
 - oscilloscope
+- LM358 operational amplifier
 
 For this component of the lab, we constructed a circuit that is able to detect electromagnetic radiation of infrared (IR) frequncy. A photo transistor was used to modulate the circuit in response to a 7 kHz pulsating IR light. The phototransistor works via an embedded bipolar junction transistor, which is able to pass current in response to incident electromagnetic radiation. The changing current causes voltage to drop across the serial resistor. We measured the voltage at the terminal of the resistor with an oscilloscope. The amplitude of the voltage recorded was around 100 mV. This voltage was directly connected to an analog pin of the Arduino Uno with a wire.
 
@@ -35,7 +36,58 @@ After gathering the FFT serial data, we plotted the data in MATLAB. Included bel
 
 Since the sampling frequency is 150 Hz, and the pulsating frequency of the IR signal is  7 kHz, we should see high ampilitude around bin index 46. The MATLAB plot clearly shows this feature at around that index value, demonstrating that the Arduino can detect IR signals.
 
-For future developments, we plan to use analog filtering to enhance the quality of the FFT data. In addition, to ensure that low intensity IR radiation can be detected, we plan to incorporate some sort of analog amplifier. We tried to use an op-amp to achieve this task for this lab, but were unable to get the circuit to perform properly. 
+Our intelligent physical system will need to perform some action upon detecting the 7 kHz signal (in addition to other IR frequencies). An additional challenge is that this 7 kHz signal will likely have a low intensity due to the distance at which it is being transmitted to the phototransistor. To remedy these problems, we had to implement an analog circuit along with a high pass filter, in addition to writing scripts in Arduino that would perform some action upon detecting the desired IR frequency. 
+
+The raw voltage signal being transmitted from the phototransistor is roughly ~100 mV peak-to-peak with some DC voltage, but this AC swing can be much lower depending on the treasure distance. In order to ensure that voltage reading at the Arduino is detectable/high enough, we created a non-inverting operational amplifier (op-amp) with the LM358 amplifier. 
+
+
+Since the raw output from the phototransistor had a non-trivial DC component, any gain would amplify the total voltage well beyond the rail voltage (5V) of the amplifier, creating an unusable signal. To mitigate this issue, we created a simple high-pass filter using a capacitor and a resistor to filter out low frequency (DC) signals. 
+
+We selected an arbitrary capacitor and then calibrated the resistance of the resistor such that most low-frequency (DC) signals would be eliminated. Below is the circuit schematic:
+
+![](./resources/fullcircuitschematic.png)
+
+Below is a photo of the full circuit:
+
+![](./resources/(ircircuit.JPG)
+
+
+Here are the values of the components we used:
+
+- R<sub>3 = 9.7 kΩ
+- R<sub>4 = 47.9 kΩ
+- R<sub>2 = 8 kΩ
+- R<sub>1 = 1.78 kΩ 
+- C<sub>1 = 3.3 nF
+
+
+The gain of our amplifier was roughly 6 (A<sub>v = 1 + R<sub>4/R<sub>3) . That is, our input voltage would be multiplied by a factor of 6 at the output of the amplifier. 
+
+Here is the oscilloscope reading of the input voltage and output (amplified) voltage:
+
+![](./resources/(irscope.JPG)
+
+The final step was to have the Arduino perform some action in response to detecting the frequency. 
+
+To do this, we added `if` statements to the standard `fft_adc_serial` script that would read the amplitude from the FFT bin corresponding to 7 kHz frequency and then do a `digitalWrite` command:
+
+```
+if (fft_log_out[47]>75){
+      digitalWrite(13, HIGH);
+}
+else if (fft_log_out[47]<75){
+      digitalWrite(13, LOW);
+}
+
+```
+
+Pin 13 corresponds to an led output on the Arduino Uno. Below is a video of the Arduino Uno illuminating pin 13 in response to the 7 kHz signal. Note that the pin illuminates when the treasure is brought within ~6 in. of the transistor, but turns off once it is out of range. 
+
+<video width="460" height="270" controls preload> 
+    <source src="resources/irlightdetection.mp4"></source> 
+</video>
+
+
 
 
 ## Acoustic Team: 
