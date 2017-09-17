@@ -91,9 +91,20 @@ Pin 13 corresponds to an led output on the Arduino Uno. Below is a video of the 
 
 
 
-## Acoustic Team: 
+## Acoustic Team:
 
-In this part of the lab, we built a microphone circuit and wrote code so that our Arduino would be able to detect a tone of 660 Hz, the frequency that will be generated in the beep that signals the robot should start navigating the maze.
+Materials used:
+
+- Electret microphone
+- 1 microfarad capacitor
+- 300 Ohm resistors
+- 3k Ohm resistor
+- Arduino Uno
+- USB serial cable
+- oscilloscope
+- tone generating application
+
+In this part of the lab, we built a microphone circuit and wrote code so that our Arduino would be able to detect a tone of 660 Hz, the frequency that signals the robot to start navigating the maze.
  
 ### Testing:
 Before we got to lab, we went onto the Open Music Lab’s website and downloaded the FFT library.  Before we built our microphone circuit, we wanted to test what the code was doing.  We opened the example script from the FFT library named fft_adc_serial, and tested the code using an oscilloscope and function generator with parameters of 660 Hz, 3.3V/2 Vpp, and a 0.825V offset.  We then recorded the data using the Arduino’s Serial Monitor, and plotted the results using excel.  Graphs from two subsequent trials are shown below: 
