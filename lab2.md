@@ -120,9 +120,11 @@ Our peak voltage for every trial we ran occurred at the 5th data point or "bin".
 To compute the frequency width of each bin, we consulted the ADC section of the ATmega328 datasheet. We found that the last 3 bits of the ADC Control and Status Register (ADCSRA) determines the division factor between the system clock frequency and the input clock to the ADC. In the fft_adc_serial code, ADCSRA was written 0xe5, making the division factor = 32.
 
 Thus, we calculated the sampling frequency:
+
 ADC sampling frequency = 16 MHz (system clock frequency) / 32 (division factor) / 13 (conversion time) = 38 kHz
 
 Finally, the bin frequency width was calculated as follows:
+
 Bin width = 38 kHz (sampling frequency) / 256 samples = 150 Hz / sample
 
 Therefore, bin 5 contains the range of frequencies 600 - 750 Hz, which matches our data.
