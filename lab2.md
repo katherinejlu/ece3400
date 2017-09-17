@@ -107,9 +107,7 @@ Materials used:
 In this part of the lab, we built a microphone circuit and wrote code so that our Arduino would be able to detect a tone of 660 Hz, the frequency that signals the robot to start navigating the maze.
  
 ### Testing:
-Before we got to lab, we went onto the Open Music Lab’s website and downloaded the FFT library.  We needed a Fast Fourier Transform algorithm to detect specific frequencies using a microphone.
-
-(NEED DESCRIPTION OF FFT ALGORITHM)
+Before we got to lab, we went onto the Open Music Lab’s website and downloaded the FFT library.  We needed a Fast Fourier Transform algorithm to detect specific frequencies using a microphone. A Fourier transform decomposes a signal into the frequencies that make it up. The Fast Fourier Transform (FFT) is a way to compute a Fourier transform in O(n log(n)) time instead of O(n^2) time, by recursively breaking down a discrete Fourier transform (DFT) into much smaller DFTs.
 
 We opened the example script from the FFT library named fft_adc_serial, and tested the code using an oscilloscope and function generator with parameters of 660 Hz, 3.3V/2 Vpp, and a 0.825V offset.  We then recorded the data using the Arduino’s Serial Monitor, and plotted the results using excel.  Graphs from two subsequent trials are shown below: 
 
