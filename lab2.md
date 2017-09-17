@@ -148,22 +148,17 @@ The oscilloscope showed that it was taking in data from the acoustics in the roo
 
 ![](./resources/lab2_acoustic_data5.png)
 
-From there, we fed the microphone output to the Arduino and wrote to the Arduino to check for spikes in bin 5, where the start signal of 660 Hz would appear if detected by the microphone: 
+From there, we fed the microphone output to the Arduino, and in the loop function we checked for a peak in bin 5.
 
-![](./resources/lab2_acoustic_data7.png)
-
-To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. The start function would typically begin line detection, make the robot's wheels subsequently turn, and so on. 
-
-In the loop code, we checked for an peak in bin 5:
 ```
 //detects input on bin 5 and performs start function
 if (fft_log_out[4] > 120) {
 	start();
 }
-
 ```
 
-Then we created a "start" method:
+To visually demonstrate the Arduino's ability to detect the start signal, we had it light up an LED once the microphone detected it. We created a start function which would typically begin line detection, make the robot's wheels subsequently turn, and so on. 
+
 ```
 /*This function will "start" the robot and perform any functions necessary
 for operation. Right now it turns on an LED.
@@ -171,7 +166,6 @@ for operation. Right now it turns on an LED.
 void start() {
   digitalWrite(13, HIGH);
 }
-
 ```
 
 Below is a video of the arduino LED responding to a 660 Hz signal: 
@@ -195,7 +189,6 @@ Using our previous equation with the new prescaler, we calculated the bin width 
 if (fft_log_out[4] > 120) {
 	start();
 }
-
 ```
 
 
