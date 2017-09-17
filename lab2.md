@@ -50,7 +50,7 @@ We selected an arbitrary capacitor and then calibrated the resistance of the res
 
 Below is a photo of the full circuit:
 
-![](./resources/ircircuit.JPG)
+![](./resources/rotatedirscope.JPG)
 
 
 Here are the values of the components we used:
