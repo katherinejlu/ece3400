@@ -50,7 +50,7 @@ We selected an arbitrary capacitor and then calibrated the resistance of the res
 
 Below is a photo of the full circuit:
 
-![](./resources/rotatedirscope.JPG)
+![](./resources/ircircuit.JPG)
 
 
 Here are the values of the components we used:
@@ -66,7 +66,7 @@ The gain of our amplifier was roughly 6 (Av= 1 + R4/R3) . That is, our input vol
 
 Here is the oscilloscope reading of the input voltage and output (amplified) voltage:
 
-![](./resources/irscope.JPG)
+![](./resources/rotatedirscope.JPG)
 
 The final step was to have the Arduino perform some action in response to detecting the frequency. 
 
