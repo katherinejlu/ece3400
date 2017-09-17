@@ -51,5 +51,8 @@ void loop() {
     if (fft_log_out[47]>75){
       start();
     }
+    else if (fft_log_out[47]<75){
+      digitalWrite(13, LOW);
+    }
   }
 }
