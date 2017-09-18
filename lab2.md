@@ -27,9 +27,9 @@ We've also included a photo of the circuit:
 
 We then used the standard `fft` library to process the voltage signal. The Arduino has built-in hardware capable of processing the signal using the ADC (analog-to-digital) converter, which performs better than the regular `analogRead` function for high frequency data.
 
-The data was then transformed into the frequency-domain using the `fft` library. FFT--or Fast Fourier Transform--is a method used by computers to efficiently convert time-domain data into the frequency domain. We utilized the `fft_adc_serial` script to output a serial stream of frequency data. The `fft` takes advantage of the analog-to-digital converter. Each serial line of output corresponds to the amplitude of the input signal at a frequency related to the relative index of the line output. Each index corresponds to an integer multiple of the sampling frequency, so index *i* corresponds to frequency *f<sub>s</sub>i*, where *f<sub>s</sub>* is the sampling frequency. 
+The data was then transformed into the frequency-domain using the `fft` library. FFT--or Fast Fourier Transform--is a method used by computers to efficiently convert time-domain data into the frequency domain. We utilized the `fft_adc_serial` script to output a serial stream of frequency data. The `fft` takes advantage of the analog-to-digital converter. Each serial line of output corresponds to the amplitude of the input signal at a frequency related to the relative index of the line output. Each index corresponds to an integer multiple of the bin frequency width, so index *i* corresponds to frequency *f<sub>w</sub>i*, where *f<sub>w</sub>* is the bin frequency width. 
 
-In order to make sense of the FFT data, we needed to figure out the sampling frequency. Using the data sheet, we deduced that the sampling frequency, *f<sub>s</sub>*, is roughly 150 Hz. 
+In order to make sense of the FFT data, we needed to figure out the bin frequency width. Using the data sheet, we deduced that the bin frequency width, *f<sub>w</sub>*, is roughly 150 Hz. 
 
 After gathering the FFT serial data, we plotted the data in MATLAB. Included below is a MATLAB plot we generated from the data:
 
