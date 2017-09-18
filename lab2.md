@@ -14,6 +14,7 @@ Materials used:
 - USB serial cable
 - oscilloscope
 - LM358 operational amplifier
+- treasure
 
 For this component of the lab, we constructed a circuit that is able to detect electromagnetic radiation of infrared (IR) frequncy. A photo transistor was used to modulate the circuit in response to a 7 kHz pulsating IR light. The phototransistor works via an embedded bipolar junction transistor, which is able to pass current in response to incident electromagnetic radiation. The changing current causes voltage to drop across the serial resistor. We measured the voltage at the terminal of the resistor with an oscilloscope. The amplitude of the voltage recorded was around 100 mV. This voltage was directly connected to an analog pin of the Arduino Uno with a wire.
 
@@ -27,9 +28,9 @@ We've also included a photo of the circuit:
 
 We then used the standard `fft` library to process the voltage signal. The Arduino has built-in hardware capable of processing the signal using the ADC (analog-to-digital) converter, which performs better than the regular `analogRead` function for high frequency data.
 
-The data was then transformed into the frequency-domain using the `fft` library. FFT--or Fast Fourier Transform--is a method used by computers to efficiently convert time-domain data into the frequency domain. We utilized the `fft_adc_serial` script to output a serial stream of frequency data. The `fft` takes advantage of the analog-to-digital converter. Each serial line of output corresponds to the amplitude of the input signal at a frequency related to the relative index of the line output. Each index corresponds to an integer multiple of the sampling frequency, so index *i* corresponds to frequency *f<sub>s</sub>i*, where *f<sub>s</sub>* is the sampling frequency. 
+The data was then transformed into the frequency-domain using the `fft` library. FFT--or Fast Fourier Transform--is a method used by computers to efficiently convert time-domain data into the frequency domain. We utilized the `fft_adc_serial` script to output a serial stream of frequency data. The `fft` takes advantage of the analog-to-digital converter. Each serial line of output corresponds to the amplitude of the input signal at a frequency related to the relative index of the line output. Each index corresponds to an integer multiple of the bin frequency width, so index *i* corresponds to frequency *f<sub>w</sub>i*, where *f<sub>w</sub>* is the bin frequency width. 
 
-In order to make sense of the FFT data, we needed to figure out the sampling frequency. Using the data sheet, we deduced that the sampling frequency, *f<sub>s</sub>*, is roughly 150 Hz. 
+In order to make sense of the FFT data, we needed to figure out the bin frequency width. Using the data sheet, we deduced that the bin frequency width, *f<sub>w</sub>*, is roughly 150 Hz. 
 
 After gathering the FFT serial data, we plotted the data in MATLAB. Included below is a MATLAB plot we generated from the data:
 
@@ -42,7 +43,10 @@ Our intelligent physical system will need to perform some action upon detecting 
 The raw voltage signal being transmitted from the phototransistor is roughly ~100 mV peak-to-peak with some DC voltage, but this AC swing can be much lower depending on the treasure distance. In order to ensure that the voltage reading at the Arduino is detectable/high enough, we created a non-inverting operational amplifier (op-amp) with the LM358 amplifier. 
 
 
-Since the raw output from the phototransistor had a non-trivial DC component, any gain would amplify the total voltage well beyond the rail voltage (5V) of the amplifier, creating an unusable signal. To mitigate this issue, we created a simple high-pass filter using a capacitor and a resistor to filter out low frequency (DC) signals. 
+Since the raw output from the phototransistor had a non-trivial DC component, any gain would amplify the total voltage well beyond the rail voltage (5V) of the amplifier, creating an unusable signal. To mitigate this issue, we created a simple high-pass filter using a capacitor and a resistor to filter out low frequency (DC) signals. The lowest frequency capable of passing through the high-pass filter (commonly referred to as the cutoff frequency) is equal to the equation below:
+
+![](./resources/cutoff_frequency.png)
+
 
 We selected an arbitrary capacitor and then calibrated the resistance of the resistor such that most low-frequency (DC) signals would be eliminated. Below is the circuit schematic:
 
@@ -79,15 +83,17 @@ if (fft_log_out[47]>75){
 else if (fft_log_out[47]<75){
       digitalWrite(13, LOW);
 }
-
 ```
 
 Pin 13 corresponds to an led output on the Arduino Uno. Below is a video of the Arduino Uno illuminating pin 13 in response to the 7 kHz signal. Note that the pin illuminates when the treasure is brought within ~6 in. of the transistor, but turns off once it is out of range. 
+
 
 <video width="460" height="270" controls preload> 
     <source src="resources/irlightdetection.mp4"></source> 
 </video>
 
+
+We will need to modify the circuit to include a band pass filter in order to better detect multiple discrete frequencies (multiple treasures). 
 
 
 
@@ -107,7 +113,19 @@ Materials used:
 In this part of the lab, we built a microphone circuit and wrote code so that our Arduino would be able to detect a tone of 660 Hz, the frequency that signals the robot to start navigating the maze.
  
 ### Testing:
+<<<<<<< HEAD
 Before we got to lab, we went onto the Open Music Lab’s website and downloaded the FFT library.  We needed a Fast Fourier Transform algorithm to detect specific frequencies using a microphone. A Fourier transform decomposes a signal into the frequencies that make it up. The Fast Fourier Transform (FFT) is a way to compute a Fourier transform in O(n log(n)) time instead of O(n^2) time, by recursively breaking down a discrete Fourier transform (DFT) into much smaller DFTs.
+=======
+Before we got to lab, we went onto the Open Music Lab’s website and downloaded the FFT library.  We needed a Fast Fourier Transform algorithm to detect specific frequencies using a microphone.
+
+Fast Fourier Transform essentially performs a discrete time fourier transform (DTFT) in a time-efficient manner. The formula for DTFT is:
+
+![](./resources/FFT_algorithm.svg)
+
+*x<sub>n</sub>* is the value at index *n* of the array containing time-domain data (of length N), and *X<sub>k</sub>* is the value at index *k* of the frequency-domain data. The complex valued frequency domain data encodes both the phase and amplitude of the constituent signal at a specific frequency. 
+
+FFT is able to perform this operation in O(nlogn) time-complexity--significantly faster than the naive algorithm, which takes O(n^2) time. 
+>>>>>>> f919dac22c03749b8ce5f91e1ee1ed3bc947410f
 
 We opened the example script from the FFT library named fft_adc_serial, and tested the code using an oscilloscope and function generator with parameters of 660 Hz, 3.3V/2 Vpp, and a 0.825V offset.  We then recorded the data using the Arduino’s Serial Monitor, and plotted the results using excel.  Graphs from two subsequent trials are shown below: 
 
