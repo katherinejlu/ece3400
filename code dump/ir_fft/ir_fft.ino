@@ -49,7 +49,7 @@ void loop() {
       Serial.println(fft_log_out[i]); // send out the data
     }
     if (fft_log_out[47]>75){
-      start();
+      digitalWrite(13, HIGH);
     }
     else if (fft_log_out[47]<75){
       digitalWrite(13, LOW);
