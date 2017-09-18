@@ -13,7 +13,9 @@ We had some issues with getting consistent readings from the line sensors, so ou
 
 We ran into significant hardware problems as we continued working on our project. When the robot was programmed to go straight, it would continuously veer to the left. This behavior suggests an improper servo calibration, but setting both servos to 90 resulted in no movement (so the servos must have been properly calibrated). We puzzled over this problem for several hours, switching out several servos and adjusting our code to unevenly power one servo more than the other. Probing the PWM signals at the Arduino output pins revealed that they were behaving as expected. Re-doing the wiring ended up fixing the problem. Likely, one signal connection was loose and sent an odd PWM signal to the servo.
 
-![](./resources/veeringvideo.MOV)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Cvb9fMoiSzk
+" target="_blank"><img src="http://img.youtube.com/vi/Cvb9fMoiSzk/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 ## Software Implementation
 
@@ -25,10 +27,30 @@ Our line detection mechanism proved to be very robust. Whenever it was tested, i
 
 The primary challenge we faced was implementing the actual motion correction. We initially adjusted the speed of each servo by 1 to 2 units. We could not figure out why line correction was not working. The serial output told us that the robot was detecting position correctly, and that it was in fact changing the PWM signal. We hypothesized that it was in fact a servo issue - and while there was a servo hardware problem (see above) - this was not the primary issue. After several hours of testing, we finally pushed the correction servo power up significantly. One servo would move fowards at +45 (relative to 90) and the other would move at -45 (relative to 90). This gave us immediate and real results. We successfully implemented line correction!
 
+```
+  if(line[2]>400){
+    rightSpeed = 45;
+    Serial.println("LEFT");
+    leftSpeed = 180 ;
+  }
+  else if(line[0]>400){
+    leftSpeed =135;
+    rightSpeed = 0;
+    Serial.println("RIGHT");
+  }
+  else if (line[0]<400 && line[2]<400){
+    Serial.println("STRAIGHT");
+    leftSpeed = 135;
+    rightSpeed = 45;
+  }
+```
+
 [INSERT LINE CORRECTION VIDEO!!!!]
 
 ~~~~CORNERING DESCRIPTION NEEDED!!!!~~~~~
 
 Here is the video of our robot doing a figure eight:
 
-![](./resources/IMG_0718.mp4)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=9BDlo4FiO3k
+" target="_blank"><img src="http://img.youtube.com/vi/9BDlo4FiO3k/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
