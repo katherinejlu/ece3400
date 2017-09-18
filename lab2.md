@@ -119,7 +119,9 @@ Fast Fourier Transform essentially performs a discrete time fourier transform (D
 
 ![](./resources/FFT_algorithm.svg)
 
-*x<sub>n</sub>* is the value at index *n* of the array containing time-domain data, and *X<sub>n</sub> is the value at index *n* of the frequency-domain data. The complex valued frequency domain data encodes both the phase and amplitude of the constituent signal at a specific frequency. 
+*x<sub>n</sub>* is the value at index *n* of the array containing time-domain data (of length N), and *X<sub>k</sub> is the value at index *k* of the frequency-domain data. The complex valued frequency domain data encodes both the phase and amplitude of the constituent signal at a specific frequency. 
+
+FFT is able to perform this operation in O(nlogn) time-complexity--significantly faster than the naive algorithm, which takes O(n^2) time. 
 
 We opened the example script from the FFT library named fft_adc_serial, and tested the code using an oscilloscope and function generator with parameters of 660 Hz, 3.3V/2 Vpp, and a 0.825V offset.  We then recorded the data using the Arduino’s Serial Monitor, and plotted the results using excel.  Graphs from two subsequent trials are shown below: 
 
