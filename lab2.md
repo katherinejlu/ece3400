@@ -119,7 +119,7 @@ Fast Fourier Transform essentially performs a discrete time fourier transform (D
 
 ![](./resources/FFT_algorithm.svg)
 
-*x<sub>n</sub>* is the value at index *n* of the array containing time-domain data (of length N), and *X<sub>k</sub> is the value at index *k* of the frequency-domain data. The complex valued frequency domain data encodes both the phase and amplitude of the constituent signal at a specific frequency. 
+*x<sub>n</sub>* is the value at index *n* of the array containing time-domain data (of length N), and *X<sub>k</sub>* is the value at index *k* of the frequency-domain data. The complex valued frequency domain data encodes both the phase and amplitude of the constituent signal at a specific frequency. 
 
 FFT is able to perform this operation in O(nlogn) time-complexity--significantly faster than the naive algorithm, which takes O(n^2) time. 
 
