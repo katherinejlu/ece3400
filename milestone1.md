@@ -51,7 +51,7 @@ To get the robot to turn at a junction, we specified the conditions under which 
 
 Thus, we implemented code that broke from the primary loop that directs the robot based on position in reference to the line, allowing the robot to continue to turn after it turns away from the junction. Since the robot begins and ends a turn directly on the line, one of two boolean requirements must be satisified in order for the robot to continue to turn: it must either have not passed the line it originally began on, or the robot isn't straight on the line yet. This is roughly implemented as shown below: 
 
-'''
+```
   boolean straight = (line[0]<400 && line[1]>400 && line[2]<400);
   boolean passed = false; 
   
@@ -64,7 +64,7 @@ Thus, we implemented code that broke from the primary loop that directs the robo
     }
     passed = false; 
   }
-'''
+```
 
 Here is the video of our robot doing a figure eight:
 
