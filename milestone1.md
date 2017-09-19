@@ -45,8 +45,6 @@ The primary challenge we faced was implementing the actual motion correction. We
   }
 ```
 
-[INSERT LINE CORRECTION VIDEO!!!!]
-
 To get the robot to turn at a junction, we specified the conditions under which the robot should continue to turn. We set the servos' speed to turn once the sensors detect a junction. Most of our code directs the robot based on whether the sensors detect that the robot is at a junction, on the line, to the left of line, or to the right of the line, but turning must be address differently. For example, as the robot turns left, the sensors (which are all currently located at the front of the bot) will first report that the robot is on the line, then left of the line, then for a period of time it will not be able to detect the line at all, then right of the line, and finally back on the line. 
 
 Thus, we implemented code that broke from the primary loop that directs the robot based on position in reference to the line, allowing the robot to continue to turn after it turns away from the junction. Since the robot begins and ends a turn directly on the line, one of two boolean requirements must be satisified in order for the robot to continue to turn: it must either have not passed the line it originally began on, or the robot isn't straight on the line yet. This is roughly implemented as shown below: 
