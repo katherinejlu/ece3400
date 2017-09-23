@@ -9,7 +9,7 @@ Cornell University, Fall 2017
 
 [Milestone 1](./milestone1.md)
 
-[Milestone 2](./Milestone 2)
+[Milestone 2](./Milestone2.md)
 
 ## Team Logistics
 
