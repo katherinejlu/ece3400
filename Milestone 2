@@ -16,7 +16,8 @@ recorded, a graph of which is shown below.
 We then did the same test for the long range sensors, and found that the results were not as predictable. We 
 realized that the sensors were transmitting a signal in a wide cone and were therefore detecting objects around 
 the room that were not relevant.  This is the data we got from two subsequent trials for the long range sensors. 
-
+![](./resources/Screen Shot 2017-09-23 at 3.56.33 PM.png)
+![](./resources/Screen Shot 2017-09-23 at 3.56.47 PM.png)
  
  
  
