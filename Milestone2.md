@@ -1,6 +1,7 @@
-#Milestone 2
+# Milestone 2
  
-##Distance Sensing
+## Distance Sensing
+
 For this milestone, we implemented distance sensing.  We had two sensor options:  long range and short range.  
 We at first decided that we wanted to try to use a combination of both sensors, as the short range would detect 
 walls up close and tell the robot to turn to avoid collision, and the long range would allow for faster mapping.  
