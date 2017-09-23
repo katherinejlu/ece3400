@@ -1,5 +1,11 @@
 # Milestone 2
  
+## Treasure Detection
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=w5iABs7IJ5A
+" target="_blank"><img src="http://img.youtube.com/vi/w5iABs7IJ5A/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
 ## Distance Sensing
 
 For this milestone, we implemented distance sensing.  We had two sensor options:  long range and short range.  
@@ -19,7 +25,6 @@ realized that the sensors were transmitting a signal in a wide cone and were the
 the room that were not relevant.  This is the data we got from two subsequent trials for the long range sensors. 
 ![](./resources/Screen Shot 2017-09-23 at 3.56.33 PM.png)
 ![](./resources/Screen Shot 2017-09-23 at 3.56.47 PM.png)
- 
  
  
 We decided that because the long range sensors were more unpredictable, and because we thought the short range 
