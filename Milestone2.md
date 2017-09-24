@@ -29,7 +29,7 @@ The first stage of implementation was creating an analog circuit that would feed
 
 ![](./resources/milestone2ircircuit.png)
 
-C1 and R2 function as a high-filter to remove the input DC. The 2.5V DC source before R2 is intended to DC-bias the output votlage so that the Arduino can properly read the signal. The theoretical gain of the circuit is roughly 5.5K (1 + R3/R4), though the demonstrated gain is much lower. Note that the actual circuit embedded on the robot will use a voltage divider to implement the 2.5V DC source, not a DC voltage source. 
+C1 and R2 function as a high-filter to remove the input DC. The 2.5V DC source before R2 is intended to DC-bias the output votlage so that the Arduino can properly read the signal. The theoretical gain of the circuit is roughly 5.5K (1 + R3/R4), though the demonstrated gain is much lower. Note that the actual circuit embedded on the robot will use a voltage divider to implement the 2.5V DC source, not an actual DC voltage source. 
 
 ### Arduino code
 
