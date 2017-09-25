@@ -20,11 +20,19 @@ enum Direction {
 State state; //initializes state enum variable
 Direction dir; //initializes direction enum variable
 
+//for Treasure Detection
+long clockFreq = 16E6;
+int divisionFactor = 32;
+int conversionTime = 13;
+int numSamples = 256;
+float samplingFrequency = ((clockFreq/((float)divisionFactor))/conversionTime);
+float binWidth = samplingFrequency/numSamples;
+
 void setup() {
   //Initializes the robot into START state
   state = START;
 
-  //setup for 660 Hz detect
+  //setup for both FFTs
   Serial.begin(9600); // use the serial port
   //pinMode(13, OUTPUT); //sets pin 13 (built in LED) as an output
   TIMSK0 = 0; // turn off timer0 for lower jitter
@@ -35,21 +43,25 @@ void setup() {
 
 void loop() {
   
-  // Stays in START state until goSignal returns TRUE
-  // The robot will then enter JUNCTION state
+  //START state: waits until startSignal returns TRUE, then enters JUNCTION state
   if (state == START) {
+    //Serial.println("START");
     if (startSignal()) {
       state = JUNCTION;
     }
-    Serial.println("START");
   }
 
   //JUNCTION state: detects walls and treasures, chooses next direction to move
   if (state == JUNCTION) {
-    Serial.println("JUNCTION");
-
-    
+    //Serial.println("JUNCTION");
+    String treasure = detectTreasure(); //gets a string for treasure at junction
+    char[] wallArray = detectWalls();
+    Direction dir = chooseDirection(wallArray);
   }
+
+  //BETWEEN state: follows a line until it reaches the next junction
+
+  //DONE state: robot has completed task
 }
 
 
