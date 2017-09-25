@@ -156,12 +156,12 @@ Here's a video of Evan Kravitz demonstrating the functionality of the circuit an
 
 Materials used:
 
--breadboard
--wires
--long distance sensor
--short distance sensor
--Arduino Uno
--USB serial cable
+- breadboard
+- wires
+- long distance sensor
+- short distance sensor
+- Arduino Uno
+- USB serial cable
 
 For this milestone, we implemented distance sensing.  We had two sensor options:  long range and short range.  
 We at first decided that we wanted to try to use a combination of both sensors, as the short range would detect 
