@@ -144,7 +144,7 @@ void loop() {
 
 There's a lot of boilerplate code from the FFT libtary. The function we implemented was `detectedFrequency`. We also added the `if` statements at the end of the `loop` method. 
 
-Here's a video of Evan Kravitz demonstrating the functionality of the circuit and Arduino code:
+Here's a video of Evan demonstrating the functionality of the circuit and Arduino code:
 
 
 <video width="460" height="270" controls preload> 
