@@ -156,7 +156,7 @@ Here's a video of Evan Kravitz demonstrating the functionality of the circuit an
 
 Materials used:
 
-- breadboard
+- breadboard 
 - wires
 - long distance sensor
 - short distance sensor
