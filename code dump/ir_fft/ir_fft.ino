@@ -9,12 +9,13 @@ port at 115.2kb.
 
 #define LOG_OUT 1 // use the log output function
 #define FFT_N 256 // set to 256 point fft
+#include "printf.h"
 
-char clockFreq = 16E6;
-char divisionFactor = 32;
-char conversionTime = 13;
-char numSamples = 256;
-float samplingFrequency = clockFreq/(divisionFactor/conversionTime);
+long clockFreq = 16E6;
+int divisionFactor = 32;
+int conversionTime = 13;
+int numSamples = 256;
+float samplingFrequency = ((clockFreq/((float)divisionFactor))/conversionTime);
 float binWidth = samplingFrequency/numSamples;
 
 #include <FFT.h> // include the library
@@ -26,34 +27,35 @@ void setup() {
   ADMUX = 0x40; // use adc0
   DIDR0 = 0x01; // turn off the digital input for adc0
   pinMode(13, OUTPUT);
+  printf_begin();
 }
 
-void start(){
-  digitalWrite(13, HIGH);
-}
 
 boolean detectedFrequency(float freqToDetect, char fftArray[]){
-  int peakIndexWidth = 3;
-  Serial.print("Freq to detect: %f \n", freqToDetect);
-  Serial.print("Bin width = %d \n", binWidth);
+  int peakIndexWidth = 5;
+  int absoluteMinThreshold = 80;
   int centralBinIndex = int ((float)freqToDetect)/((float)binWidth);
-  Serial.print("central bin index = %d \n", centralBinIndex);
-  char maximumMag = -1;
+  int maximumMag = -1;
   for (int i = centralBinIndex-peakIndexWidth; i<= centralBinIndex+peakIndexWidth; i++){
-    if (fftArray[i]>maximumMag){
-      maximumMag = fftArray[i];
+    if (abs((int)fftArray[i])>maximumMag){
+      maximumMag = abs((int)fftArray[i]);
     }
   }
-  for (int i = 20; i<centralBinIndex-peakIndexWidth; i++){
-    if (fftArray[i]>= maximumMag){
+  if (maximumMag<absoluteMinThreshold){
+    return false;
+  }
+  
+  for (int i = 30; i<centralBinIndex-peakIndexWidth; i++){
+    if (abs((int)fftArray[i])>= maximumMag){
       return false;
     }
   }
   for (int i = centralBinIndex+peakIndexWidth+1; i<256; i++){
-    if (fftArray[i]>= maximumMag){
+    if (abs((int)fftArray[i])>= maximumMag){
       return false;
     }
   }
+
   return true;
 
 }
@@ -79,20 +81,20 @@ void loop() {
     fft_run(); // process the data in the fft
     fft_mag_log(); // take the output of the fft
     sei();
-//    Serial.println("start");
-//    for (byte i = 0 ; i < FFT_N/2 ; i++) { 
-//      Serial.println(fft_log_out[i]); // send out the data
-//    }
-    
+  
     if (detectedFrequency(7E3, fft_log_out)){
-      //Serial.print("7kHz \n");
+     Serial.print("7kHz \n");
+
+     
     }
-//    if (detectedFrequency(12E3, fft_log_out)){
-//      Serial.print("12kHz \n");
-//    }
-//    if (detectedFrequency(17E3, fft_log_out)){
-//      Serial.print("17kHz \n");
-//    }
-//    
+     if (detectedFrequency(12E3, fft_log_out)){
+     Serial.print("12kHz \n");
+     
+    }
+
+   if (detectedFrequency(17E3, fft_log_out)){
+     Serial.print("17kHz \n");
+     
+    }
   }
 }
