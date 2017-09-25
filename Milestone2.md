@@ -174,7 +174,7 @@ the room that were not relevant.  This is the data we got from two subsequent tr
  
  
 We decided that because the long range sensors were more unpredictable, and because we thought the short range 
-sensors would be able to more accurately predict when the robot was approaching a wall, we decided to implement
+sensors would be able to more accurately predict when the robot was approaching a wall, we would implement
 wall detection using short range sensors. 
 Our code for this is shown below:
  
@@ -193,7 +193,7 @@ void loop() {
     //stop at junction 
     //turn at junction 
   } else {
-   //go straight WE HAVE TO IMPLEMENT THIS PART 
+   //go straight
   }
   delay(500);
 }
