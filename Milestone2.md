@@ -192,7 +192,7 @@ Our code for this is shown below:
       wall = true;
       servoL.write(90);
       servoR.write(90);
-      delay(500);      //need to make it turn?
+      delay(500);
     }    
 ```
 Here is a brief video of the robot with the integrated distance sensor. As it approaches the wall, it turns at the closest junction. 
