@@ -1,4 +1,4 @@
-boolean startSignal() {
+boolean detectStart() {
   while(1) { // reduces jitter
     cli();  // UDRE interrupt slows this way down on arduino1.0
     for (int i = 0 ; i < 512 ; i += 2) { // save 256 samples

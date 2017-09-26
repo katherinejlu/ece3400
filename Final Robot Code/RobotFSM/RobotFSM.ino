@@ -46,7 +46,7 @@ void loop() {
   //START state: waits until startSignal returns TRUE, then enters JUNCTION state
   if (state == START) {
     //Serial.println("START");
-    if (startSignal()) {
+    if (detectStart()) {
       state = JUNCTION;
     }
   }
