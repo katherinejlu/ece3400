@@ -20,7 +20,11 @@ enum Direction {
 State state; //initializes state enum variable
 Direction dir; //initializes direction enum variable
 
-//for Treasure Detection
+//detectStart
+//int micPin = A0; //microphone connected to analog 0, code currently does this in setup in ADMUX
+
+//detectTreasure
+//int treasurePin = A0; // treasure connected to analog 0, code does this in setup in ADMUX
 long clockFreq = 16E6;
 int divisionFactor = 32;
 int conversionTime = 13;
@@ -28,7 +32,11 @@ int numSamples = 256;
 float samplingFrequency = ((clockFreq/((float)divisionFactor))/conversionTime);
 float binWidth = samplingFrequency/numSamples;
 
-//for Wall Detection
+//detectWalls
+int wallPinLeft = A1;
+int wallPinMid = A2;
+int wallPinRight = A3;
+int wallPinArray[3] = {wallPinLeft, wallPinMid, wallPinRight}; //array of pins used for wall detection
 int wallArray[3] = {0, 0, 0};
 
 void setup() {
@@ -58,8 +66,8 @@ void loop() {
   if (state == JUNCTION) {
     //Serial.println("JUNCTION");
     String treasure = detectTreasure(); //gets a string for treasure at junction
-    wallArray[3] = detectWalls();
-    //Direction dir = chooseDirection(wallArray);
+    wallArray[3] = detectWalls(); //gets an array of where walls are located
+    Direction dir = chooseDirection(wallArray); //chooses direction to move based on wall array
   }
 
   //BETWEEN state: follows a line until it reaches the next junction
