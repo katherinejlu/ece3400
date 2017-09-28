@@ -3,9 +3,10 @@
  * Wall: [Left, Center, Right]
  * Index:[ 0  ,   1   ,   2  ]
  */
-unsigned char[] detectWalls() {
-  unsigned char[] wallArray;
-  for (int i = 0; i < 4; i ++) {
+int detectWalls() {
+  int wallArray[3] = {0, 0, 0};
+  
+  for (int i = 0; i < 3; i ++) {
     wallArray[i] = isWall(i);
   }
   
@@ -15,7 +16,7 @@ unsigned char[] detectWalls() {
  * Argument wallDirection refers to direction of the wall
  * which will be mapped to analog inputs.
  */
-char isWall(int wallDirection) {
-  
+int isWall(int wallDirection) {
+  return 1;
 }
 
