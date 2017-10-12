@@ -73,54 +73,94 @@ module DE0_NANO(
 	 wire [1:0] GRID_X;
 	 wire [1:0] GRID_Y;
 	 
-//	 GRID_SELECTOR gridSelector(
-//		.CLOCK_50(CLOCK_50),
-//		.PIXEL_COORD_X(PIXEL_COORD_X),
-//		.PIXEL_COORD_Y(PIXEL_COORD_Y),
-//		.GRID_X(GRID_X),
-//		.GRID_Y(GRID_Y),
-//	);
-//	
-//	
-//	reg[7:0] grid[2:0] [2:0];
-//	
-//	always @(*) begin
-//		 grid[0][0] = 8'b11111111;
-//		 grid[1][0] = 8'b01010101;
-//		 grid[0][1] = 8'b00001111;
-//		 grid[1][1] = 8'b11110000;
-//		 grid[2][0] = 8'd0;
-//		 grid[2][1] = 8'd0;
-//		 grid[2][2] = 8'd0;
-//		 grid[0][2] = 8'd0;
-//		 grid[1][2] = 8'd0;
-//	end
-//
-//
-//
-//	
-//	
-//	
-//
-//	always @(*) begin
-//		PIXEL_COLOR = grid[GRID_X][GRID_Y];
-//	end
+	 GRID_SELECTOR gridSelector(
+		.CLOCK_50(CLOCK_50),
+		.PIXEL_COORD_X(PIXEL_COORD_X),
+		.PIXEL_COORD_Y(PIXEL_COORD_Y),
+		.GRID_X(GRID_X),
+		.GRID_Y(GRID_Y),
+	);
+	
+	
+	reg[7:0] grid1[2:0] [2:0];
+	
+	always @(*) begin
+		 grid1[0][0] = 8'b11111111;
+		 grid1[1][0] = 8'd300;
+		 grid1[0][1] = 8'd300;
+		 grid1[1][1] = 8'd300;
+		 grid1[2][0] = 8'd00;
+		 grid1[2][1] = 8'd00;
+		 grid1[2][2] = 8'd00;
+		 grid1[0][2] = 8'd00;
+		 grid1[1][2] = 8'd00;
+	end
+
+	
+	reg[7:0] grid2[2:0] [2:0];
+	
+	always @(*) begin
+		 grid2[0][0] = 8'd300;
+		 grid2[1][0] = 8'b11111111;
+		 grid2[0][1] = 8'd300;
+		 grid2[1][1] = 8'd300;
+		 grid2[2][0] = 8'd0;
+		 grid2[2][1] = 8'd0;
+		 grid2[2][2] = 8'd0;
+		 grid2[0][2] = 8'd0;
+		 grid2[1][2] = 8'd0;
+	end
+
+
+	reg[7:0] grid3[2:0] [2:0];
+	
+	always @(*) begin
+		 grid3[0][0] = 8'd300;
+		 grid3[1][0] = 8'd300;
+		 grid3[0][1] = 8'b11111111;
+		 grid3[1][1] = 8'd300;
+		 grid3[2][0] = 8'd0;
+		 grid3[2][1] = 8'd0;
+		 grid3[2][2] = 8'd0;
+		 grid3[0][2] = 8'd0;
+		 grid3[1][2] = 8'd0;
+	end
+	
+	reg[7:0] grid4[2:0] [2:0];
+	
+	always @(*) begin
+		 grid4[0][0] = 8'd300;
+		 grid4[1][0] = 8'd300;
+		 grid4[0][1] = 8'd300;
+		 grid4[1][1] = 8'b11111111;
+		 grid4[2][0] = 8'd0;
+		 grid4[2][1] = 8'd0;
+		 grid4[2][2] = 8'd0;
+		 grid4[0][2] = 8'd0;
+		 grid4[1][2] = 8'd0;
+	end
+
+
 	 
 	 
 	always @(*) begin
-		if (GPIO_0_D[3]==1'd0 && GPIO_0_D[1] == 1'd0) begin
-			PIXEL_COLOR = 8'd0;
+		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd0) begin
+			PIXEL_COLOR = grid1[GRID_X][GRID_Y];
 		end
-		if (GPIO_0_D[3]==1'd0 && GPIO_0_D[1] == 1'd1) begin
-			PIXEL_COLOR = 8'd100;
+		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd1) begin
+			PIXEL_COLOR = grid2[GRID_X][GRID_Y];
 		end
-	 	if (GPIO_0_D[3]==1'd1 && GPIO_0_D[1] == 1'd0) begin
-			PIXEL_COLOR = 8'd200;
+	 	if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd0) begin
+			PIXEL_COLOR = grid3[GRID_X][GRID_Y];
 		end
-		if (GPIO_0_D[3]==1'd1 && GPIO_0_D[1] == 1'd1) begin
-			PIXEL_COLOR = 8'd300;
+		if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd1) begin
+			PIXEL_COLOR = grid4[GRID_X][GRID_Y];
 		end
 	end
+
+
+//assign GPIO_0_D[31] = 1'd1;
+//assign GPIO_0_D[33] = 1'd1;
 	 
 	 reg [24:0] led_counter; // timer to keep track of when to toggle LED
 	 reg 			led_state;   // 1 is on, 0 is off
