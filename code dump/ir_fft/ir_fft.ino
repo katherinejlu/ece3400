@@ -9,6 +9,14 @@ port at 115.2kb.
 
 #define LOG_OUT 1 // use the log output function
 #define FFT_N 256 // set to 256 point fft
+#include "printf.h"
+
+long clockFreq = 16E6;
+int divisionFactor = 32;
+int conversionTime = 13;
+int numSamples = 256;
+float samplingFrequency = ((clockFreq/((float)divisionFactor))/conversionTime);
+float binWidth = samplingFrequency/numSamples;
 
 #include <FFT.h> // include the library
 
@@ -19,11 +27,40 @@ void setup() {
   ADMUX = 0x40; // use adc0
   DIDR0 = 0x01; // turn off the digital input for adc0
   pinMode(13, OUTPUT);
+  printf_begin();
 }
 
-void start(){
-  digitalWrite(13, HIGH);
+
+boolean detectedFrequency(float freqToDetect, char fftArray[]){
+  int peakIndexWidth = 5;
+  int absoluteMinThreshold = 80;
+  int centralBinIndex = int ((float)freqToDetect)/((float)binWidth);
+  int maximumMag = -1;
+  for (int i = centralBinIndex-peakIndexWidth; i<= centralBinIndex+peakIndexWidth; i++){
+    if (abs((int)fftArray[i])>maximumMag){
+      maximumMag = abs((int)fftArray[i]);
+    }
+  }
+  if (maximumMag<absoluteMinThreshold){
+    return false;
+  }
+  
+  for (int i = 30; i<centralBinIndex-peakIndexWidth; i++){
+    if (abs((int)fftArray[i])>= maximumMag){
+      return false;
+    }
+  }
+  for (int i = centralBinIndex+peakIndexWidth+1; i<256; i++){
+    if (abs((int)fftArray[i])>= maximumMag){
+      return false;
+    }
+  }
+
+  return true;
+
 }
+
+
 
 void loop() {
   while(1) { // reduces jitter
@@ -44,15 +81,20 @@ void loop() {
     fft_run(); // process the data in the fft
     fft_mag_log(); // take the output of the fft
     sei();
-    Serial.println("start");
-    for (byte i = 0 ; i < FFT_N/2 ; i++) { 
-      Serial.println(fft_log_out[i]); // send out the data
+  
+    if (detectedFrequency(7E3, fft_log_out)){
+     Serial.print("7kHz \n");
+
+     
     }
-    if (fft_log_out[47]>75){
-      digitalWrite(13, HIGH);
+     if (detectedFrequency(12E3, fft_log_out)){
+     Serial.print("12kHz \n");
+     
     }
-    else if (fft_log_out[47]<75){
-      digitalWrite(13, LOW);
+
+   if (detectedFrequency(17E3, fft_log_out)){
+     Serial.print("17kHz \n");
+     
     }
   }
 }

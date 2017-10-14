@@ -9,6 +9,8 @@ Cornell University, Fall 2017
 
 [Milestone 1](./milestone1.md)
 
+[Milestone 2](./Milestone2.md)
+
 ## Team Logistics
 
 [Team Contract](https://docs.google.com/document/d/11ZBqf6RC5hrOcDreiL2vlYcdcat49vuX1CWatlyPSTk/edit?usp=sharing)

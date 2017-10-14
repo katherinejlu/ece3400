@@ -9,7 +9,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   value= analogRead(A0); 
-  if (value>150){ // this would be a little bit closer than 15 cm to any wall.
+  if (value>15){ // this would be a little bit closer than 15 cm to any wall.
     //stop at junction 
     //turn at junction 
   } else {
