@@ -7,6 +7,9 @@ Cornell University, Fall 2017
 
 [Lab 2](./lab2.md)
 
+[Lab 3](./lab3.md)
+
+
 [Milestone 1](./milestone1.md)
 
 [Milestone 2](./Milestone2.md)
