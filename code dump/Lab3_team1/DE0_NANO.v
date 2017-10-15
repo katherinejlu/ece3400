@@ -76,7 +76,10 @@ module DE0_NANO(
     wire [7:0]  PIXEL_COLOR;   // input 8-bit pixel color for current coords
 	 
 	 reg [24:0] led_counter; // timer to keep track of when to toggle LED
+	 reg [24:0] freq_counter;
 	 reg 			led_state;   // 1 is on, 0 is off
+	 
+	 reg [2:0]	freq_state;
 	 
 	 reg [7:0] DAC; //DAC
 	 
@@ -133,8 +136,23 @@ module DE0_NANO(
 		  end // always @ (posedge CLOCK_25)
 	 end
 	 
-	 
-	
+	 always @ (posedge CLOCK_25) begin
+		  if (reset) begin
+				freq_state <= 2'b00;
+				freq_counter <= 25'b0;
+		  end
+		  if (freq_counter == ONE_SEC) begin
+				freq_counter <= 25'b0;
+				freq_state <= freq_state + 2'b1;
+				if (freq_state == 2'b11) begin
+					freq_state <= 2'b00;
+				end
+		  end
+		  else begin	
+				freq_state <= freq_state;
+				freq_counter <= freq_counter + 25'b1;
+		  end // always @ (posedge CLOCK_25)
+	 end
 //	//localparam
 //	localparam CLKDIVIDER_440 = 25000000 / 440 / 2;
 //	
@@ -154,17 +172,28 @@ module DE0_NANO(
 //		end
 //	end
 
-	localparam CLKDIVIDER_A_SIN = 25000000 / 260 / 256;
+	localparam CLKDIVIDER_A_SIN = 25000000 / 400 / 256;
+	localparam CLKDIVIDER_B_SIN = 25000000 / 800 / 256;
+	localparam CLKDIVIDER_C_SIN = 25000000 / 600 / 256;
 	reg [15:0] counter;
+	
 	
 	always @ (posedge CLOCK_25) begin
 		if (counter == 0) begin
-			counter <= CLKDIVIDER_A_SIN - 1;
-			if (DAC == 2) begin
+			if (freq_state == 0) begin
+				counter <= CLKDIVIDER_A_SIN - 1;
+			end
+			if (freq_state == 1) begin
+				counter <= CLKDIVIDER_B_SIN - 1;
+			end
+			if (freq_state == 2) begin
+				counter <= CLKDIVIDER_C_SIN - 1;
+			end
+			if (DAC >= 255) begin
 				DAC <= 0;
 			end
 			else begin
-				DAC <= DAC + 1;
+				DAC <=  DAC + 1;
 			end
 		end
 		else begin

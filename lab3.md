@@ -1,6 +1,7 @@
 # Lab 3
 
 ## Graphics Team
+Radhika, Katherine, and Evan
 
 ### Introduction
 
@@ -225,6 +226,22 @@ reg[7:0] grid1[2:0] [2:0];
 <video width="460" height="270" controls preload> 
     <source src="resources/fpga-arduino-interface></source> 
 </video>
+
+
+
+## Acoustic Team
+Michael, TJ, and Frannie
+
+Materials used:
+
+- FPGA DEO-Nano
+- 8-bit R2R DAC
+- Stereo phone jack socket
+- Lab speaker
+
+The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
+
+#Generating a square wave
 
 
 
