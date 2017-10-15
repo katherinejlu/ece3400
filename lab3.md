@@ -14,7 +14,7 @@ The adaptor that connects the FPGA output to the VPA cable is a DAC converter. A
 
 Below is a circuit diagram of the DAC:
 
-![](./resources/dacconverter)
+![](./resources/dacconverter.png)
 
 One can solve for the voltage at the `Red` node (`Vred`). Vred = 0.141*R[2] + 0.0684*R[1] + 0.0321*R[0]. Notice that the "weights" for each vary by powers of two, with the MSB having twice the weight as the 1st bit, and the 0th (LSB) bit having 1/4 of the weight as a MSB. In order words, the converter is adding up the bits and weighting each one accordingly in order to generate 1 final voltage value. The bins are also weighted such that if all bits (R[2], R[1], and R[0]) are pulled high (3.3v), the voltage at the output can be supported by the monitor (it comes out to ~0.8v).
 
@@ -224,7 +224,7 @@ reg[7:0] grid1[2:0] [2:0];
 	We've included a video demonstration:
 
 <video width="460" height="270" controls preload> 
-    <source src="resources/fpga-arduino-interface></source> 
+    <source src="resources/fpga-arduino-interface.mp4></source> 
 </video>
 
 
