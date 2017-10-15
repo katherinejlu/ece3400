@@ -217,7 +217,7 @@ end
 Next, we added an `always` block that would set the `PIXEL_COLOR` depending on the value of the pins `GPIO_0_D[33]` and `GPIO_0_D[31]` (i.e. the output from the Arduino).
 
 ```
-	always @(*) begin
+always @(*) begin
 	if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd0) begin
 		PIXEL_COLOR = grid1[GRID_X][GRID_Y];
 	end
