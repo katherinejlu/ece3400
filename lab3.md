@@ -259,13 +259,67 @@ TJ - i think you should put a pic of the DAC pinout in this section
 
 ### Part 2: Generating a sine wave
 
-To generate a sine wave, we used our square wave code, but made it substantially more complex. First, we needed to have a way to store and read out a sine wave (as opposed to calculating the sine values in real time). We did this by creating a ROM module in 
+To generate a sine wave, we used our square wave code, but made it substantially more complex. First, we needed to have a way to store and read out a sine wave (as opposed to calculating the sine values in real time). We did this by creating a ROM module using a Verilog template. We then ported in a sin table (which we created in MATLAB). On every positive edge of the clock, the module finds the relevant entry in the sin table that corresponds to the inputted address value. 
+
+#### Sin ROM Module:
+```
+module sin_rom
+(
+	input [7:0] addr,
+	input clk, 
+	output reg [7:0] q
+);
+
+	// Declare the ROM variable
+	reg [7:0] sine[255:0];
+
+	initial
+	begin
+		sine[0]<= 8'd127;
+		sine[1]<= 8'd130;
+		/// everything in between...
+		sine[255]<= 8'd124;
+	end
+
+	always @ (posedge clk)
+	begin
+		q <= sine[addr];
+	end
+
+endmodule
+```
+
+In main, we connect the module to the registers that we have created. We create a sine wave at a specific frequency using a rudimentary direct digital synthesis (DDS) method. We increment through the sine table everytime a counter decrements to zero. Since we use a 25 MHz clock, we need to go through the sine table 400 times to get an output frequency of 400 Hz. Moreover, the sine table is 256 entries long. Hence, our formula for our counter is Clock frequency/Desired Frequency/Number of entries in the table, or in this particular case, 25,000,000/400/256. This produced a perfect sine wave, as one can observe in the below video.
+
+#### In Main:
+```
+localparam CLKDIVIDER_A_SIN = 25000000 / 400 / 256; //400 Hz
+reg [15:0] counter;
+
+
+always @ (posedge CLOCK_25) begin
+	if (counter == 0) begin
+		counter <= CLKDIVIDER_A_SIN - 1;
+		if (DAC >= 255) begin
+			DAC <= 0;
+		end
+		else begin
+			DAC <=  DAC + 1;
+		end
+	end
+	else begin
+		counter <= counter - 1;
+	end
+end
+```
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TQKGTA-fIVY" frameborder="0" allowfullscreen></iframe>
 
 ### Part 3: Generating Three Tones
 
 To generate the three tone signal, we worked off of our sine production code above. This time, instead of just having one clock divider, we created three (one for each tone we wanted to play). We created a simple FSM to switch between frequencies. The only change we had to make to the code which accesses the ROM was to simply make the counter reset to different values depending on the state. The FSM switches between states once per second, creating a pleasant incrementing of tones. You can hear this in the video below.
+
+Note that this program simply plays the three tones in a loop, starting immediately. It would be fairly simple to hook this up to an one bit input signal from the Arduino (as the VGA team did above).
 
 ```
  always @ (posedge CLOCK_25) begin
@@ -287,9 +341,9 @@ To generate the three tone signal, we worked off of our sine production code abo
  end
 
 
-localparam CLKDIVIDER_A_SIN = 25000000 / 400 / 256;
-localparam CLKDIVIDER_B_SIN = 25000000 / 800 / 256;
-localparam CLKDIVIDER_C_SIN = 25000000 / 600 / 256;
+localparam CLKDIVIDER_A_SIN = 25000000 / 400 / 256; //400 Hz
+localparam CLKDIVIDER_B_SIN = 25000000 / 800 / 256; //800 Hz
+localparam CLKDIVIDER_C_SIN = 25000000 / 600 / 256; //600 Hz
 reg [15:0] counter;
 
 
