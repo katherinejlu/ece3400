@@ -289,6 +289,9 @@ Then, we attached the GPIO pin 1 to the oscilliscope and speakers to see and hea
 
 To generate a sine wave, we used our square wave code, but made it substantially more complex. First, we needed to have a way to store and read out a sine wave (as opposed to calculating the sine values in real time). We did this by creating a ROM module using a Verilog template. We then ported in a sin table (which we created in MATLAB). On every positive edge of the clock, the module finds the relevant entry in the sin table that corresponds to the inputted address value. 
 
+#### 8-bit sine function with values 0-255
+![](./resources/lab3_8bitsin.png)
+
 #### Sin ROM Module:
 ```
 module sin_rom
