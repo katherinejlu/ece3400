@@ -254,7 +254,62 @@ The goal of the Acoustic Team was to generate a short tune from the FPGA to be p
 
 #Generating a square wave
 
+#Generating a sine wave
+
+#Generating Three Tones
+
+To generate the three tone signal, we worked off of our sine production code above. This time, instead of just having one clock divider, we created three (one for each tone we wanted to play). We created a simple FSM to switch between frequencies. The only change we had to make to the code which accesses the ROM was to simply make the counter reset to different values depending on the state. The FSM switches between states once per second, creating a pleasant incrementing of tones. You can hear this in the video below.
+
+```
+ always @ (posedge CLOCK_25) begin
+	  if (reset) begin
+			freq_state <= 2'b00;
+			freq_counter <= 25'b0;
+	  end
+	  if (freq_counter == ONE_SEC) begin
+			freq_counter <= 25'b0;
+			freq_state <= freq_state + 2'b1;
+			if (freq_state == 2'b11) begin
+				freq_state <= 2'b00;
+			end
+	  end
+	  else begin	
+			freq_state <= freq_state;
+			freq_counter <= freq_counter + 25'b1;
+	  end // always @ (posedge CLOCK_25)
+ end
 
 
+localparam CLKDIVIDER_A_SIN = 25000000 / 400 / 256;
+localparam CLKDIVIDER_B_SIN = 25000000 / 800 / 256;
+localparam CLKDIVIDER_C_SIN = 25000000 / 600 / 256;
+reg [15:0] counter;
 
+
+always @ (posedge CLOCK_25) begin
+	if (counter == 0) begin
+		if (freq_state == 0) begin
+			counter <= CLKDIVIDER_A_SIN - 1;
+		end
+		if (freq_state == 1) begin
+			counter <= CLKDIVIDER_B_SIN - 1;
+		end
+		if (freq_state == 2) begin
+			counter <= CLKDIVIDER_C_SIN - 1;
+		end
+		if (DAC >= 255) begin
+			DAC <= 0;
+		end
+		else begin
+			DAC <=  DAC + 1;
+		end
+	end
+	else begin
+		counter <= counter - 1;
+	end
+end
+
+```
+
+<iframe width="560" height="315" src="https://youtu.be/FSzmDpvT8Bo" frameborder="0" allowfullscreen></iframe>
 
