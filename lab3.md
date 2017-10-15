@@ -22,6 +22,8 @@ A similar analysis yields the analog voltage at the `Green` node.
 
 For the blue node, the voltage `Vblue` comes out to be: Vblue = 0.1456*B[1] + 0.07096*B[0]. Notice that the weight for B[1] is twice that of B[0] in order to ensure that the analog voltage represents the digital value. 
 
+Another way to think about this converter is by noticing that the resistor values for bits that are weighted more strongly are lower (in fact, the resistor values vary by powers of 2 in order to correspond to voltage weightings of powers of 2). The low-impedance connection between significant bits and the VGA ensures that this bit will have more influence over the voltage at the output node than bits that are seperated by large resistors. 
+
 The color (red, green, blue) intensity for any given pixel will be proportional to the analog voltage value for that given color channel. So if all the bits for a given channel are `HIGH`, the analog voltage will be at its highest, and the intensity of that color will be maximized.  
 
 
