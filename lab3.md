@@ -1,6 +1,7 @@
 # Lab 3
 
 ## Graphics Team
+Radhika, Katherine, and Evan
 
 For this component of the lab, we were tasked with demonstrating the functionality of the DE0-nano field programmable gate array (FPGA) in interfacing with a VGA serial monitor. Specifically, we had to write HDL code that would interact with the VGA driver. The VGA driver--which requests a pixel color for each pixel on the screen--handled the direct interfacing with the VGA. The output pins of the FPGA were hooked up to an adaptor, to which the VGA cable of the monitor was connected.
 \\add stuff on voltage divider/dac conversion
@@ -111,6 +112,22 @@ void loop() {
 ```
 
 The 2 bit Arduino output "data" then had to be transmitted to the FPGA. Since the Arduino outputs at 5v and the FPGA handles 3.3v, we implemented a simply voltage divider to pull down the voltage. 
+
+
+## Acoustic Team
+Michael, TJ, and Frannie
+
+Materials used:
+
+- FPGA DEO-Nano
+- 8-bit R2R DAC
+- Stereo phone jack socket
+- Lab speaker
+
+The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
+
+#Generating a square wave
+
 
 
 
