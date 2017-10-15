@@ -1,3 +1,5 @@
+[Home](./homepage.md) 
+
 # Lab 3
 
 ## Graphics Team
@@ -242,18 +244,44 @@ We've included a video demonstration:
 ## Acoustic Team
 Michael, TJ, and Frannie
 
-Materials used:
+###Introduction
+
+The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
+
+####Materials used:
 
 - FPGA DEO-Nano
 - 8-bit R2R DAC
 - Stereo phone jack socket
 - Lab speaker
 
-The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
 
 ### Part 1: Generating a square wave
 
-TJ - i think you should put a pic of the DAC pinout in this section
+A square wave was the simplest wave to generate, since we only needed to toggle one GPIO output on and off at our desired frequency. In order to generate the correct frequency, we created a clock divider parameter that divides the system clock of 25 MHz by 440 Hz. This provides the number of cycles that the FPGA needs to wait before toggling the GPIO pin. We needed to divide the clock divider by an additional factor of 2, so the pin would toggle both on and off in the desired number of cycles. The following code creates a simple counter that will toggle the GPIO pin once it counts through the number of cycles provided by CLKDIVIDER_440.
+
+#### Square wave generation:
+```
+//localparam
+localparam CLKDIVIDER_440 = 25000000 / 440 / 2;
+
+//sound variables
+reg square_440;
+assign GPIO_0_D[1] = square_440;
+reg [15:0] counter;
+
+always @ (posedge CLOCK_25) begin
+	if (counter == 0) begin
+		counter <= CLKDIVIDER_440 - 1; //reset the clock
+		square_440 <= ~square_440; //toggle the square pulse
+	end
+	else begin
+		counter <= counter - 1;
+		square_440 <= square_440;
+	end
+end
+```
+Then, we attached the GPIO pin 1 to the oscilliscope and speakers to see and hear the square wave. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dw-YT_o7A1I" frameborder="0" allowfullscreen></iframe>
 
@@ -289,7 +317,7 @@ module sin_rom
 endmodule
 ```
 
-In main, we connect the module to the registers that we have created. We create a sine wave at a specific frequency using a rudimentary direct digital synthesis (DDS) method. We increment through the sine table everytime a counter decrements to zero. Since we use a 25 MHz clock, we need to go through the sine table 400 times to get an output frequency of 400 Hz. Moreover, the sine table is 256 entries long. Hence, our formula for our counter is Clock frequency/Desired Frequency/Number of entries in the table, or in this particular case, 25,000,000/400/256. This produced a perfect sine wave, as one can observe in the below video.
+In main, we connect the module to the registers that we have created. We create a sine wave at a specific frequency using a rudimentary direct digital synthesis (DDS) method. We increment through the sine table everytime a counter decrements to zero. Since we use a 25 MHz clock, we need to go through the sine table 400 times to get an output frequency of 400 Hz. Moreover, the sine table is 256 entries long. Hence, our formula for our counter is Clock frequency/Desired Frequency/Number of entries in the table, or in this particular case, 25,000,000/400/256. 
 
 #### In Main:
 ```
@@ -312,6 +340,12 @@ always @ (posedge CLOCK_25) begin
 	end
 end
 ```
+
+To convert the digital sine wave to an analog signal for the speakers we used a R2R Digital to Analog Converter. 
+
+![](./resources/lab3_r2rdac.png)
+
+We connected the 8 bit output register of GPIO pins to pins 1-8 on the DAC. Then, the analog signal from pin 16 of the DAC was connected to our speakers. This produced a perfect sine wave, as one can observe in the below video.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TQKGTA-fIVY" frameborder="0" allowfullscreen></iframe>
 
