@@ -239,7 +239,6 @@ We've included a video demonstration:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/bsqfBa_z_XE" frameborder="0" allowfullscreen></iframe>
 
 
-
 ## Acoustic Team
 Michael, TJ, and Frannie
 
@@ -254,9 +253,13 @@ The goal of the Acoustic Team was to generate a short tune from the FPGA to be p
 
 ### Part 1: Generating a square wave
 
+TJ - i think you should put a pic of the DAC pinout in this section
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/dw-YT_o7A1I" frameborder="0" allowfullscreen></iframe>
 
 ### Part 2: Generating a sine wave
+
+To generate a sine wave, we used our square wave code, but made it substantially more complex. First, we needed to have a way to store and read out a sine wave (as opposed to calculating the sine values in real time). We did this by creating a ROM module in 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TQKGTA-fIVY" frameborder="0" allowfullscreen></iframe>
 
