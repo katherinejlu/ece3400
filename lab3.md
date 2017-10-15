@@ -5,7 +5,7 @@ Radhika, Katherine, and Evan
 
 ### Introduction
 
-For this component of the lab, we were tasked with demonstrating the functionality of the DE0-nano field programmable gate array (FPGA) in interfacing with a VGA serial monitor. Specifically, we had to write HDL code that would interact with the VGA driver. The VGA driver--which requests a pixel color for each pixel on the screen--handled the direct interfacing with the VGA. The output pins of the FPGA were hooked up to an adaptor, to which the VGA cable of the monitor was connected.
+For this component of the lab, we were tasked with demonstrating the functionality of the DE0-nano field programmable gate array (FPGA) in interfacing with a VGA serial monitor. Specifically, we had to write HDL code that would interact with the VGA driver. The VGA driver--which requests a pixel color for each pixel on the screen--handled the direct interfacing with the VGA. The output pins of the FPGA were hooked up to an adapter, to which the VGA cable of the monitor was connected.
 
 #### Materials used:
 - Arduino Uno
@@ -20,30 +20,30 @@ For this component of the lab, we were tasked with demonstrating the functionali
 
 ### FPGA-VGA Interface
 
-The adaptor that connects the FPGA output to the VPA cable is a DAC converter. A DAC converter converts a digital input to an analog output. In other words, the FGPA encodes the 3-channel colors as multi-bit digital binary values, and then the adapter converts these multi-bit values into 1 continuous voltage value. In our case, the VGA supports a maximum 1v input for each color channel. Therefore, the voltage value for each channel is computed by converting the 2-3 bit values (with 3.3v for each `HIGH` bit) for each color channel into 1 analog voltage that can be between 0v and 1v. 
+The adapter that connects the FPGA output to the VPA cable is a DAC converter. A DAC converter converts a digital input to an analog output. In other words, the FGPA encodes the 3-channel colors as multi-bit digital binary values, and then the adapter converts these multi-bit values into 1 continuous voltage value. In our case, the VGA supports a maximum 1v input for each color channel. Therefore, the voltage value for each channel is computed by converting the 2-3 bit values (with 3.3v for each `HIGH` bit) for each color channel into 1 analog voltage that can be between 0v and 1v. 
 
 Below is a circuit diagram of the DAC:
 
 ![](./resources/dacconverter.png)
 
-One can solve for the voltage at the `Red` node (`Vred`). Vred = 0.141*R[2] + 0.0684*R[1] + 0.0321*R[0]. Notice that the "weights" for each vary by powers of two, with the MSB having twice the weight as the 1st bit, and the 0th (LSB) bit having 1/4 of the weight as a MSB. In order words, the converter is adding up the bits and weighting each one accordingly in order to generate 1 final voltage value. The bins are also weighted such that if all bits (R[2], R[1], and R[0]) are pulled high (3.3v), the voltage at the output can be supported by the monitor (it comes out to ~0.8v).
+One can solve for the voltage at the `Red` node (`Vred`). Vred = 0.141*R[2] + 0.0684*R[1] + 0.0321*R[0]. Notice that the "weights" for each bit vary by powers of two, with the MSB having twice the weight as the 1st bit, and the 0th (LSB) bit having 1/4 of the weight as a MSB. In order words, the converter is adding up the bits and weighting each one accordingly in order to generate 1 final voltage value. The bins are also weighted such that if all bits (R[2], R[1], and R[0]) are pulled high (3.3v), the voltage at the output can be supported by the monitor (it comes out to ~0.8v).
 
 A similar analysis yields the analog voltage at the `Green` node. 
 
 For the blue node, the voltage `Vblue` comes out to be: Vblue = 0.1456*B[1] + 0.07096*B[0]. Notice that the weight for B[1] is twice that of B[0] in order to ensure that the analog voltage represents the digital value. 
 
-Another way to think about this converter is by noticing that the resistor values for bits that are weighted more strongly are lower (in fact, the resistor values vary by powers of 2 in order to correspond to voltage weightings of powers of 2). The low-impedance connection between significant bits and the VGA ensures that this bit will have more influence over the voltage at the output node than bits that are seperated by large resistors. 
+Another way to think about this converter is by noticing that the resistor values for bits that are weighted more strongly are lower (in fact, the resistor values vary by powers of 2 in order to correspond to voltage weightings of powers of 2). The low-impedance connection between significant bits and the output ensures that this bit will have more influence over the voltage at the output node than bits that are seperated by large resistors. 
 
 The color (red, green, blue) intensity for any given pixel will be proportional to the analog voltage value for that given color channel. So if all the bits for a given channel are `HIGH`, the analog voltage will be at its highest, and the intensity of that color will be maximized.  
 
 
 ### Part 1: Coloring the entire screen
 
-For the first part of this lab, we simply wanted to write the same color value to each pixel on the display. For this, we simply needed a simple `assign` statement (i.e. `assign PIXEL_COLOR = 8'd300`). 
+For the first part of this lab, we simply wanted to write the same color value to each pixel on the display. For this, we needed a simple `assign` statement (i.e. `assign PIXEL_COLOR = 8'd300`). 
 
 ### Part 2: Coloring a grid
 
-For the second part of the lab, we wanted to have the FPGA write a colored 2x2 grid to the display. We didivided this task into two part: a) mapping the raw pixel coordinates to a quadrant on the 2x2 grid, and b) given a quadrant, output what the color should be. 
+For the second part of the lab, we wanted to have the FPGA write a colored 2x2 grid to the display. We divided this task into two part: a) mapping the raw pixel coordinates to a quadrant on the 2x2 grid, and b) given a quadrant, output what the color should be. 
 
 In order to compute what quadrant of the 2x2 (or outside the grid) a given pixel location corresponded to, we created a new module called `GRID_SELECTOR`. Essentially, `GRID_SELECTOR` divides the pixel coordinates by 128 in order to calculate the grid location. We achieve this division by using a bitshift. We also made the grid width a power of 2 in order to enable us to use this grid assignment method. We made it so that all pixels which fall outside the grid are given a value of 2 for the grid index. Below is our code for this module:
 
@@ -98,14 +98,14 @@ always @(*) begin
 	grid[2][2] = 8'd0;
 	grid[0][2] = 8'd0;
 	grid[1][2] = 8'd0;
-	end
+end
 ``` 
 
 Finally, in order to assign the pixel color value, we perform the following assignment: `assign PIXEL_COLOR = grid[GRID_X][GRID_Y]`.
 
 ### Part 3: Rudimentary Arduino-FPGA Interface
 
-For the final component of the graphics portion of the lab, we were tasked with demonstrating that we can use an Arduino to communicate with the FPGA in order to select the graphic to be illuminated. 
+For the final component of the graphics portion of the lab, we were tasked with demonstrating that we can use an Arduino to communicate with the FPGA in order to display a certain graphic.  
 
 We wrote an Arduino script that repeatedly counts to 3 in binary, with a 1/2 second delay between each iteration:
 
