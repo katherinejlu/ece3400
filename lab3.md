@@ -225,9 +225,7 @@ reg[7:0] grid1[2:0] [2:0];
 
 	We've included a video demonstration:
 
-<video width="460" height="270" controls preload> 
-    <source src="resources/fpga-arduino-interface.mp4></source> 
-</video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bsqfBa_z_XE" frameborder="0" allowfullscreen></iframe>
 
 
 
