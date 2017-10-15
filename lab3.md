@@ -252,11 +252,15 @@ Materials used:
 
 The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
 
-#Generating a square wave
+### Part 1: Generating a square wave
 
-#Generating a sine wave
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dw-YT_o7A1I" frameborder="0" allowfullscreen></iframe>
 
-#Generating Three Tones
+### Part 2: Generating a sine wave
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/TQKGTA-fIVY" frameborder="0" allowfullscreen></iframe>
+
+### Part 3: Generating Three Tones
 
 To generate the three tone signal, we worked off of our sine production code above. This time, instead of just having one clock divider, we created three (one for each tone we wanted to play). We created a simple FSM to switch between frequencies. The only change we had to make to the code which accesses the ROM was to simply make the counter reset to different values depending on the state. The FSM switches between states once per second, creating a pleasant incrementing of tones. You can hear this in the video below.
 
