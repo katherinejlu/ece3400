@@ -146,84 +146,85 @@ Firstly, we instatiated 4 new memory arrays, corresponding to the 4 different ki
 
 ```
 reg[7:0] grid1[2:0] [2:0];
-	
+
+always @(*) begin
+	 grid1[0][0] = 8'b11111111;
+	 grid1[1][0] = 8'd300;
+	 grid1[0][1] = 8'd300;
+	 grid1[1][1] = 8'd300;
+	 grid1[2][0] = 8'd00;
+	 grid1[2][1] = 8'd00;
+	 grid1[2][2] = 8'd00;
+	 grid1[0][2] = 8'd00;
+	 grid1[1][2] = 8'd00;
+end
+
+
+reg[7:0] grid2[2:0] [2:0];
+
+always @(*) begin
+	 grid2[0][0] = 8'd300;
+	 grid2[1][0] = 8'b11111111;
+	 grid2[0][1] = 8'd300;
+	 grid2[1][1] = 8'd300;
+	 grid2[2][0] = 8'd0;
+	 grid2[2][1] = 8'd0;
+	 grid2[2][2] = 8'd0;
+	 grid2[0][2] = 8'd0;
+	 grid2[1][2] = 8'd0;
+end
+
+
+reg[7:0] grid3[2:0] [2:0];
+
+always @(*) begin
+	 grid3[0][0] = 8'd300;
+	 grid3[1][0] = 8'd300;
+	 grid3[0][1] = 8'b11111111;
+	 grid3[1][1] = 8'd300;
+	 grid3[2][0] = 8'd0;
+	 grid3[2][1] = 8'd0;
+	 grid3[2][2] = 8'd0;
+	 grid3[0][2] = 8'd0;
+	 grid3[1][2] = 8'd0;
+end
+
+reg[7:0] grid4[2:0] [2:0];
+
+always @(*) begin
+	 grid4[0][0] = 8'd300;
+	 grid4[1][0] = 8'd300;
+	 grid4[0][1] = 8'd300;
+	 grid4[1][1] = 8'b11111111;
+	 grid4[2][0] = 8'd0;
+	 grid4[2][1] = 8'd0;
+	 grid4[2][2] = 8'd0;
+	 grid4[0][2] = 8'd0;
+	 grid4[1][2] = 8'd0;
+end
+```
+
+Next, we added an `always` block that would set the `PIXEL_COLOR` depending on the value of the pins `GPIO_0_D[33]` and `GPIO_0_D[31]` (i.e. the output from the Arduino).
+
+```
 	always @(*) begin
-		 grid1[0][0] = 8'b11111111;
-		 grid1[1][0] = 8'd300;
-		 grid1[0][1] = 8'd300;
-		 grid1[1][1] = 8'd300;
-		 grid1[2][0] = 8'd00;
-		 grid1[2][1] = 8'd00;
-		 grid1[2][2] = 8'd00;
-		 grid1[0][2] = 8'd00;
-		 grid1[1][2] = 8'd00;
+	if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd0) begin
+		PIXEL_COLOR = grid1[GRID_X][GRID_Y];
 	end
-
-	
-	reg[7:0] grid2[2:0] [2:0];
-	
-	always @(*) begin
-		 grid2[0][0] = 8'd300;
-		 grid2[1][0] = 8'b11111111;
-		 grid2[0][1] = 8'd300;
-		 grid2[1][1] = 8'd300;
-		 grid2[2][0] = 8'd0;
-		 grid2[2][1] = 8'd0;
-		 grid2[2][2] = 8'd0;
-		 grid2[0][2] = 8'd0;
-		 grid2[1][2] = 8'd0;
+	if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd1) begin
+		PIXEL_COLOR = grid2[GRID_X][GRID_Y];
 	end
-
-
-	reg[7:0] grid3[2:0] [2:0];
-	
-	always @(*) begin
-		 grid3[0][0] = 8'd300;
-		 grid3[1][0] = 8'd300;
-		 grid3[0][1] = 8'b11111111;
-		 grid3[1][1] = 8'd300;
-		 grid3[2][0] = 8'd0;
-		 grid3[2][1] = 8'd0;
-		 grid3[2][2] = 8'd0;
-		 grid3[0][2] = 8'd0;
-		 grid3[1][2] = 8'd0;
+ 	if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd0) begin
+		PIXEL_COLOR = grid3[GRID_X][GRID_Y];
 	end
-	
-	reg[7:0] grid4[2:0] [2:0];
-	
-	always @(*) begin
-		 grid4[0][0] = 8'd300;
-		 grid4[1][0] = 8'd300;
-		 grid4[0][1] = 8'd300;
-		 grid4[1][1] = 8'b11111111;
-		 grid4[2][0] = 8'd0;
-		 grid4[2][1] = 8'd0;
-		 grid4[2][2] = 8'd0;
-		 grid4[0][2] = 8'd0;
-		 grid4[1][2] = 8'd0;
+	if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd1) begin
+		PIXEL_COLOR = grid4[GRID_X][GRID_Y];
 	end
-	```
+end
+```
 
-	Next, we added an `always` block that would set the `PIXEL_COLOR` depending on the value of the pins `GPIO_0_D[33]` and `GPIO_0_D[31]` (i.e. the output from the Arduino).
 
-	```
-		always @(*) begin
-		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd0) begin
-			PIXEL_COLOR = grid1[GRID_X][GRID_Y];
-		end
-		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd1) begin
-			PIXEL_COLOR = grid2[GRID_X][GRID_Y];
-		end
-	 	if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd0) begin
-			PIXEL_COLOR = grid3[GRID_X][GRID_Y];
-		end
-		if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd1) begin
-			PIXEL_COLOR = grid4[GRID_X][GRID_Y];
-		end
-	end
-	```
-
-	We've included a video demonstration:
+We've included a video demonstration:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/bsqfBa_z_XE" frameborder="0" allowfullscreen></iframe>
 
