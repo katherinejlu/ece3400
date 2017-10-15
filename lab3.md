@@ -7,6 +7,16 @@ Radhika, Katherine, and Evan
 
 For this component of the lab, we were tasked with demonstrating the functionality of the DE0-nano field programmable gate array (FPGA) in interfacing with a VGA serial monitor. Specifically, we had to write HDL code that would interact with the VGA driver. The VGA driver--which requests a pixel color for each pixel on the screen--handled the direct interfacing with the VGA. The output pins of the FPGA were hooked up to an adaptor, to which the VGA cable of the monitor was connected.
 
+#### Materials used:
+- Arduino Uno
+- DE0-Nano FPGA
+- breadboard
+- resistors
+- VGA cabled
+- VGA monitor
+- VGA-FPGA adapter
+- wires
+
 
 ### FPGA-VGA Interface
 
