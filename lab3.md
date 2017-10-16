@@ -260,8 +260,10 @@ treasures = 8'b11011100;     //yellow
 
 robot_position  = 2'd20;   // this is the starting grid number 
 
-gridcolor[robot position] = explored;  //capture the past position before movement before updating
-                                       //the new robot position by marking it explored. 
+  
+//capture the past position before movement before updating
+//the new robot position by marking it explored. 
+gridcolor[robot position] = explored;  
 
 if robot is moving up: 
    robot_position -= 4;  
@@ -273,7 +275,7 @@ if robot is moving right:
    robot_position += 1;
 
 update grid to show new robot position; 
-update grid to show grid color of previous robot position as explored; 
+update grid to show previous robot position has been explored; 
 ```
 
 ## Acoustic Team
