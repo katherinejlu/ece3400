@@ -244,11 +244,11 @@ We've included a video demonstration:
 ## Acoustic Team
 Michael, TJ, and Frannie
 
-###Introduction
+### Introduction
 
 The goal of the Acoustic Team was to generate a short tune from the FPGA to be played over a speaker. This tune will be played when the robot finishes mapping the maze.
 
-####Materials used:
+#### Materials used:
 
 - FPGA DEO-Nano
 - 8-bit R2R DAC
