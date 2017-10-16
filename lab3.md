@@ -235,6 +235,19 @@ always @(*) begin
 end
 ```
 
+### Future Graphics Plans 
+
+Since our current implementation of the grid is just the bare bones that was asked for in lab 3, we also planned out how we would draw out a more complex grid that mapped where our robot was, what part of the maze was already traversed, what was still unexplored, etc. 
+
+In our folder of final code, we have implemented a state machine that controls the robots movement, so if the robot must move up, down, left, or right in the maze, its wheels are directed accordingly. The current state of the robot will be communicated from the arduino to the fpga, as well as information of whether or not there is a wall on the left, right, or in front of the robot. This information will only be sent once it enters a "At a Junction" state so that the FPGA won't constantly be getting new, unnecessary updates. 
+
+This will give the FPGA the necessary amount of information to draw the bot's movements in real time. Some pseudo-code for this implementation would roughly look like: 
+
+
+
+Here is a representation of what that would look like using the real RBG values from the pseudo-code above: 
+
+![](./resources/grid.png)
 
 We've included a video demonstration:
 
