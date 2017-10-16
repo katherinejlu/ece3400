@@ -1,3 +1,5 @@
+[Home](./homepage.md) 
+
 # Lab 3
 
 ## Graphics Team
@@ -233,24 +235,46 @@ always @(*) begin
 end
 ```
 
+We've included a video demonstration:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bsqfBa_z_XE" frameborder="0" allowfullscreen></iframe>
+
 ### Future Graphics Plans 
 
 Since our current implementation of the grid is just the bare bones that was asked for in lab 3, we also planned out how we would draw out a more complex grid that mapped where our robot was, what part of the maze was already traversed, what was still unexplored, etc. 
 
 In our folder of final code, we have implemented a state machine that controls the robots movement, so if the robot must move up, down, left, or right in the maze, its wheels are directed accordingly. The current state of the robot will be communicated from the arduino to the fpga, as well as information of whether or not there is a wall on the left, right, or in front of the robot. This information will only be sent once it enters a "At a Junction" state so that the FPGA won't constantly be getting new, unnecessary updates. 
 
-This will give the FPGA the necessary amount of information to draw the bot's movements in real time. Some pseudo-code for this implementation would roughly look like: 
-
-
-
-Here is a representation of what that would look like using the real RBG values from the pseudo-code above: 
+This will give the FPGA the necessary amount of information to draw the bot's movements in real time. Here is a representation of what we would want our final robot mapping to look like using the real RBG values from the pseudo-code: 
 
 ![](./resources/grid.png)
 
-We've included a video demonstration:
+Some pseudo-code for this implementation would roughly look like: 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/bsqfBa_z_XE" frameborder="0" allowfullscreen></iframe>
+'''
+unexplored = 8'b11111111; 
+walls = 8'b0; 
+explored = 8'b11110111;      //pink
+bot = 8'b11100011;           //magenta
+treasures = 8'b11011100;     //yellow
 
+robot_position  = 2'd20;   // this is the starting grid number 
+
+gridcolor[robot position] = explored;  //capture the past position before movement before updating
+                                       //the new robot position by marking it explored. 
+
+if robot is moving up: 
+   robot_position -= 4;  
+if robot is moving down: 
+   robot_position += 4; 
+if robot is moving left: 
+   robot_position -= 1; 
+if robot is moving right: 
+   robot_position += 1;
+
+update grid to show new robot position; 
+update grid to show grid color of previous robot position as explored; 
+'''
 
 ## Acoustic Team
 Michael, TJ, and Frannie
