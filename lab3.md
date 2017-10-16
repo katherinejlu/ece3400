@@ -1,5 +1,3 @@
-[Home](./homepage.md) 
-
 # Lab 3
 
 ## Graphics Team
