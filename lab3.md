@@ -216,7 +216,7 @@ always @(*) begin
 end
 ```
 
-Next, we added an `always` block that would set the `PIXEL_COLOR` depending on the value of the pins `GPIO_0_D[33]` and `GPIO_0_D[31]` (i.e. the output from the Arduino).
+Next, we added an `always` block that would set the `PIXEL_COLOR` depending on the value of the pins `GPIO_0_D[33]` and `GPIO_0_D[31]` (i.e. the output from the Arduino). Note that for this part, we instantiated the `GRID_SELECTOR` module in order to compute the grid coordinate (`GRID_X` and `GRID_Y`) that the pixel coordinate corresponds to. 
 
 ```
 always @(*) begin
