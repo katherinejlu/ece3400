@@ -251,7 +251,7 @@ This will give the FPGA the necessary amount of information to draw the bot's mo
 
 Some pseudo-code for this implementation would roughly look like: 
 
-'''
+```
 unexplored = 8'b11111111; 
 walls = 8'b0; 
 explored = 8'b11110111;      //pink
@@ -274,7 +274,7 @@ if robot is moving right:
 
 update grid to show new robot position; 
 update grid to show grid color of previous robot position as explored; 
-'''
+```
 
 ## Acoustic Team
 Michael, TJ, and Frannie
