@@ -70,8 +70,31 @@ module DE0_NANO(
     wire [9:0]  PIXEL_COORD_X; // current x-coord from VGA driver
     wire [9:0]  PIXEL_COORD_Y; // current y-coord from VGA driver
     reg [7:0]  PIXEL_COLOR;   // input 8-bit pixel color for current coords
-	 wire [1:0] GRID_X;
-	 wire [1:0] GRID_Y;
+	 wire [2:0] GRID_X;
+	 wire [2:0] GRID_Y;
+	 reg gridcolor[19:0][7:0];
+	 reg visited [19:0]; 
+//	 reg [7:0] reg1;
+//	 reg [7:0] reg2;
+//	 reg [7:0] reg3;
+//	 reg [7:0] reg4;
+//	 reg [7:0] reg5;
+//	 reg [7:0] reg6;
+//	 reg [7:0] reg7;
+//	 reg [7:0] reg8;
+//	 reg [7:0] reg9;
+//	 reg [7:0] reg10;
+//	 reg [7:0] reg11;
+//	 reg [7:0] reg12;
+//	 reg [7:0] reg13;
+//	 reg [7:0] reg14;
+//	 reg [7:0] reg15;
+//	 reg [7:0] reg16;
+//	 reg [7:0] reg17;
+//	 reg [7:0] reg18;
+//	 reg [7:0] reg19;
+//	 reg [7:0] reg20;
+	 
 	 
 	 GRID_SELECTOR gridSelector(
 		.CLOCK_50(CLOCK_50),
@@ -81,80 +104,69 @@ module DE0_NANO(
 		.GRID_Y(GRID_Y),
 	);
 	
-	
-	reg[7:0] grid1[2:0] [2:0];
+//	always @(*) begin
+//		gridcolor[0]= 8'hF3C; 
+//		gridcolor[1]= 8'b0;
+//		gridcolor[2] =8'b11111111;
+//		gridcolor[3] =8'b0;
+//		gridcolor[4] = 8'b11111111;
+//		gridcolor[5] = 8'b0;
+//		gridcolor[6] = 8'b11111111;
+//		gridcolor[7] = 8'b0;
+//		gridcolor[8] = 8'b11111111;
+//		gridcolor[9] = 8'b0;
+//		gridcolor[10] = 8'b11111111;
+//		gridcolor[11] = 8'b0;
+//		gridcolor[12] = 8'b11111111;
+//		gridcolor[13] = 8'b0;
+//		gridcolor[14] = 8'b11111111;
+//		gridcolor[15] = 8'b0;
+//		gridcolor[16] = 8'b11111111;
+//		gridcolor[17] = 8'b0;
+//		gridcolor[18] = 8'b11111111;
+//		gridcolor[19] = 8'b0;
+//	end 
+
+	reg[7:0] grid1[3:0] [4:0];
 	
 	always @(*) begin
-		 grid1[0][0] = 8'b11111111;
-		 grid1[1][0] = 8'd300;
-		 grid1[0][1] = 8'd300;
-		 grid1[1][1] = 8'd300;
-		 grid1[2][0] = 8'd00;
-		 grid1[2][1] = 8'd00;
-		 grid1[2][2] = 8'd00;
-		 grid1[0][2] = 8'd00;
-		 grid1[1][2] = 8'd00;
-	end
-
-	
-	reg[7:0] grid2[2:0] [2:0];
-	
-	always @(*) begin
-		 grid2[0][0] = 8'd300;
-		 grid2[1][0] = 8'b11111111;
-		 grid2[0][1] = 8'd300;
-		 grid2[1][1] = 8'd300;
-		 grid2[2][0] = 8'd0;
-		 grid2[2][1] = 8'd0;
-		 grid2[2][2] = 8'd0;
-		 grid2[0][2] = 8'd0;
-		 grid2[1][2] = 8'd0;
-	end
-
-
-	reg[7:0] grid3[2:0] [2:0];
-	
-	always @(*) begin
-		 grid3[0][0] = 8'd300;
-		 grid3[1][0] = 8'd300;
-		 grid3[0][1] = 8'b11111111;
-		 grid3[1][1] = 8'd300;
-		 grid3[2][0] = 8'd0;
-		 grid3[2][1] = 8'd0;
-		 grid3[2][2] = 8'd0;
-		 grid3[0][2] = 8'd0;
-		 grid3[1][2] = 8'd0;
+		 grid1[0][0] = gridcolor[0];
+		 grid1[0][1] = gridcolor[1];
+		 grid1[0][2] = gridcolor[2];
+		 grid1[0][3] = gridcolor[3];
+		 grid1[0][4] = gridcolor[4];
+		 grid1[1][0] = gridcolor[5];
+		 grid1[1][1] = gridcolor[6];
+		 grid1[1][2] = gridcolor[7];
+		 grid1[1][3] = gridcolor[8];
+		 grid1[1][4] = gridcolor[9];
+		 grid1[2][0] = gridcolor[10];
+		 grid1[2][1] = gridcolor[11];
+		 grid1[2][2] = gridcolor[12];
+		 grid1[2][3] = gridcolor[13];
+		 grid1[2][4] = gridcolor[14];
+		 grid1[3][0] = gridcolor[15];
+		 grid1[3][1] = gridcolor[16];
+		 grid1[3][2] = gridcolor[17];
+		 grid1[3][3] = gridcolor[18];
+		 grid1[3][4] = gridcolor[19];
+		 for (i=0; i<20; i=i+1) begin
+			if(visited[i]==1) begin 
+				gridcolor[i]= 8'hF3C;
+			end
+			else begin 
+				gridcolor[i]= 8'b11111111;
+			end 
+		 end
 	end
 	
-	reg[7:0] grid4[2:0] [2:0];
-	
-	always @(*) begin
-		 grid4[0][0] = 8'd300;
-		 grid4[1][0] = 8'd300;
-		 grid4[0][1] = 8'd300;
-		 grid4[1][1] = 8'b11111111;
-		 grid4[2][0] = 8'd0;
-		 grid4[2][1] = 8'd0;
-		 grid4[2][2] = 8'd0;
-		 grid4[0][2] = 8'd0;
-		 grid4[1][2] = 8'd0;
-	end
-
-
-	 
 	 
 	always @(*) begin
-		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd0) begin
+		if (GRID_X > 3) begin
+			PIXEL_COLOR = 8'b0;
+		end
+		else begin
 			PIXEL_COLOR = grid1[GRID_X][GRID_Y];
-		end
-		if (GPIO_0_D[33]==1'd0 && GPIO_0_D[31] == 1'd1) begin
-			PIXEL_COLOR = grid2[GRID_X][GRID_Y];
-		end
-	 	if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd0) begin
-			PIXEL_COLOR = grid3[GRID_X][GRID_Y];
-		end
-		if (GPIO_0_D[33]==1'd1 && GPIO_0_D[31] == 1'd1) begin
-			PIXEL_COLOR = grid4[GRID_X][GRID_Y];
 		end
 	end
 
@@ -209,4 +221,4 @@ module DE0_NANO(
 	 end
 	 
 
-endmodule
+endmodule 
