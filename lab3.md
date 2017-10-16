@@ -266,13 +266,13 @@ robot_position  = 2'd20;   // this is the starting grid number
 gridcolor[robot position] = explored;  
 
 if robot is moving up: 
-   robot_position -= 4;  
+   robot_X -= 1;  
 if robot is moving down: 
-   robot_position += 4; 
+   robot_position += 1; 
 if robot is moving left: 
-   robot_position -= 1; 
+   robot_Y -= 1; 
 if robot is moving right: 
-   robot_position += 1;
+   robot_Y += 1;
 
 update grid to show new robot position; 
 update grid to show previous robot position has been explored; 
