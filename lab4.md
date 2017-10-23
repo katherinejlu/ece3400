@@ -238,7 +238,26 @@ always @(posedge CLOCK_25) begin
   end
 end
 ```
-
+After implementing this state machine, we were able to write simple code that caused the monitor to increment through the grid from top to bottom and from left to right. 
+ 
+ ```
+ if (led_counter == ONE_SEC) begin
+ 	led_state   <= ~led_state;
+ 	led_counter <= 25'b0;
+ 	if (y==3'b100) begin // you're at the bottom of the grid
+ 		y<= 3'b0;
+ 		x<=x+3'b001;
+ 	end
+ 	else begin
+ 		y <= y + 3'b1;
+ 	end 
+ 	grid1[x][y] <= 8'b1;
+ end
+ ```
+ Here is a video of this incrementation: 
+ <iframe width="560" height="315" src="https://www.youtube.com/watch?v=1VDqtT1vrHk&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
+ 
+ 
 ### Explanation of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
 
 With our 'state machine' working properly, it was easy to quickly assign different states to a grid tile and have a record of visited tiles. Our last step was to get the two halves of our assignment working together. We coordinated with the Arduino half of the team to make a protocol for robot position. In this case, we used the simplest possible communication scheme: A 5 bit array, with the first 2 bits representing x position, and the latter 3 representing y position. 
