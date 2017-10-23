@@ -53,7 +53,7 @@ module DE0_NANO(
 	 output		     [7:0]		LED;
 
 	 /////////// KEY //////////
-	 input 		     [1:0]		KEY;
+	 input 		     [1:0]		KEY; 
 
 	 //////////// SW //////////
 	 input 		     [3:0]		SW;
@@ -98,18 +98,18 @@ module DE0_NANO(
 	//state machine 
 	always @(posedge CLOCK_25) begin
 		if (GRID_X > 3) begin
-		if (GRID_X > 3) begin //colors squares that aren't in the 4x5 grid black
 			PIXEL_COLOR <= black;
 		end
 		else begin
 		currentGrid <= grid1[GRID_X][GRID_Y];
-			if (currentGrid == 0) begin
-			if (currentGrid == 0) begin // if no input, current square white
+			if (currentGrid == unexplored) begin
 				PIXEL_COLOR <= white;
 			end
-			if (currentGrid[0] == 1) begin
-			if (currentGrid[0] == 1) begin //if LSB is 1, current square pink
+			if (currentGrid == explored) begin
 				PIXEL_COLOR <= pink;
+			end
+			if (currentGrid == currPos) begin
+				PIXEL_COLOR <= black;
 			end
 		end
 	end
@@ -143,6 +143,10 @@ module DE0_NANO(
 	 
 	 reg [24:0] led_counter; // timer to keep track of when to toggle LED
 	 reg 			led_state;   // 1 is on, 0 is off
+	 wire [1:0]	botX;
+	 wire [2:0]	botY;
+	 wire [1:0]	preX;
+	 wire [2:0]	preY;
 	 
     // Module outputs coordinates of next pixel to be written onto screen
     VGA_DRIVER driver(
@@ -155,6 +159,20 @@ module DE0_NANO(
         .H_SYNC_NEG(GPIO_0_D[7]),
         .V_SYNC_NEG(GPIO_0_D[5])
     );
+	 
+	 inputReader reader(
+		.valid(GPIO_1_D[8]),
+		.arduinoInput({GPIO_1_D[10],GPIO_1_D[12],GPIO_1_D[14],GPIO_1_D[16],GPIO_1_D[18]}),
+		.robotX(botX),
+		.robotY(botY),
+		.preX(preX),
+		.preY(preY)
+	);
+	 
+	 
+	 localparam explored = 8'd1;
+	 localparam unexplored = 8'b0;
+	 localparam currPos = 8'd2;
 	 
 	 assign reset = ~KEY[0]; // reset when KEY0 is pressed
 	 
@@ -177,44 +195,48 @@ module DE0_NANO(
 				led_counter <= 25'b0;
 				x <= 3'b0;
 				y <= 3'b0;
-				grid1[0][0] = 8'b0;
-				grid1[0][1] = 8'b0;
-				grid1[0][2] = 8'b0;
-				grid1[0][3] = 8'b0;
-				grid1[0][4] = 8'b0;
-				grid1[1][0] = 8'b0;
-				grid1[1][1] = 8'b0;
-				grid1[1][2] = 8'b0;
-				grid1[1][3] = 8'b0;
-				grid1[1][4] = 8'b0;
-				grid1[2][0] = 8'b0;
-				grid1[2][1] = 8'b0;
-				grid1[2][2] = 8'b0;
-				grid1[2][3] = 8'b0;
-				grid1[2][4] = 8'b0;
-				grid1[3][0] = 8'b0;
-				grid1[3][1] = 8'b0;
-				grid1[3][2] = 8'b0;
-				grid1[3][3] = 8'b0;
-				grid1[3][4] = 8'b0;
+				grid1[0][0] = unexplored;
+				grid1[0][1] = unexplored;
+				grid1[0][2] = unexplored;
+				grid1[0][3] = unexplored;
+				grid1[0][4] = unexplored;
+				grid1[1][0] = unexplored;
+				grid1[1][1] = unexplored;
+				grid1[1][2] = unexplored;
+				grid1[1][3] = unexplored;
+				grid1[1][4] = unexplored;
+				grid1[2][0] = unexplored;
+				grid1[2][1] = unexplored;
+				grid1[2][2] = unexplored;
+				grid1[2][3] = unexplored;
+				grid1[2][4] = unexplored;
+				grid1[3][0] = unexplored;
+				grid1[3][1] = unexplored;
+				grid1[3][2] = unexplored;
+				grid1[3][3] = unexplored;
+				grid1[3][4] = unexplored;
 		  end
 		  
-		  if (led_counter == ONE_SEC) begin
-				led_state   <= ~led_state;
-				led_counter <= 25'b0;
-				if (y==3'b100) begin // you're at the bottom of the grid
-					y<= 3'b0;
-					x<=x+3'b001;
-				end
-				else begin
-					y <= y + 3'b1;
-				end 
-				grid1[x][y] <= 8'b1;
+		  else begin 
+			grid1[preX][preY] = explored;
+			grid1[botX][botY] = currPos;
 		  end
-		  else begin	
-				led_state   <= led_state;
-				led_counter <= led_counter + 25'b1;
-		  end // always @ (posedge CLOCK_25)
+//		  if (led_counter == ONE_SEC) begin
+//				led_state   <= ~led_state;
+//				led_counter <= 25'b0;
+//				if (y==3'b100) begin // you're at the bottom of the grid
+//					y<= 3'b0;
+//					x<=x+3'b001;
+//				end
+//				else begin
+//					y <= y + 3'b1;
+//				end 
+//				grid1[x][y] <= 8'b1;
+//		  end
+//		  else begin	
+//				led_state   <= led_state;
+//				led_counter <= led_counter + 25'b1;
+//		  end // always @ (posedge CLOCK_25)
 	 end
 	 
 
