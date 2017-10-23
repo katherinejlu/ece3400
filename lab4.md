@@ -67,40 +67,58 @@ We tried different ranges for sending and receiving data. We didn't see a major 
 In the next steps, we modified the data we were sending between arduinos to reflect simulated maze data.
 
 ### Sending full maze coordinates and maze updates with wireless communication
-To send the full maze coordinates, we altered the code to send a 5x5 array of unsigned chars. When sending and receiving transmissions, the arduino needs to be told what size packet it will be sending or receiving, so the key is to explicitly state what the maze size was when reading and writing data. When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. 
+To send the full maze coordinates, we altered the code to send a 5x5 array of unsigned chars. When sending and receiving transmissions, the arduino needs to be told what size packet it will be sending or receiving, so the key is to explicitly state what the maze size was when reading and writing data. 
 
-So for sending and receiving  a 5x5 array: 
+##### So for sending and receiving a 5x5 array: 
 
 ```
-unsigned char maze[5][5] =
-{
-3, 3, 3, 3, 3,
-3, 1, 1, 1, 3,
-3, 2, 0, 1, 2,
-3, 1, 3, 1, 3,
-3, 0, 3, 1, 0,
-};
+unsigned char maze[5][5];
+// different maze values were randomly assigned and sent 
 
 //sending 
-bool ok = radio.write( &updates, sizeof(unsigned char)*25);
+bool ok = radio.write( &maze, sizeof(unsigned char)*25);
 //receiving 
-bool done = radio.read( &updates, sizeof(unsigned char)*25);
+bool done = radio.read( &maze, sizeof(unsigned char)*25);
 ```
 
-We noticed that when we increased the packet size, more packets of information were being dropped or taking too long to transmit, so we also played around with higher data rates and power levels. 
+We noticed that when we increased the packet size, more packets of information were being dropped or taking too long to transmit, so we also played around with higher data rates and power levels. This yielded less dropped packets of information that transmitted faster, but we tried to err on the side of less power consumption. 
 
 ```
-  // set the power
-  // RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_MED=-6dBM, and RF24_PA_HIGH=0dBm.
-  radio.setPALevel(RF24_PA_MED);
-  //RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
-  radio.setDataRate(RF24_2MBPS);
+// set the power
+// RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_MED=-6dBM, and RF24_PA_HIGH=0dBm.
+radio.setPALevel(RF24_PA_MED);
+//RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
+radio.setDataRate(RF24_2MBPS);
 ```
 
 Here is a video of one arduino sending the entire maze to another: 
 
 <video width="460" height="270" controls preload> 
     <source src="resources/maze.mp4"></source> 
+</video>
+
+##### For sending and receiving maze updates via individual coordinate points: 
+When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. The second arduino had a 5x5 maze array intitalized so that the correct coordinate could be updated to reflect the incoming information as it was received. 
+
+```
+//random coordinate and data values were assigned
+unsigned char updates[3]; 
+updates[0] = x;
+updates[1] = y;
+updates[2] = data;
+
+//sending individual maze updates
+bool ok = radio.write( &updates, sizeof(unsigned char)*3);
+
+//receiving and updating internal memory of maze 
+done = radio.read( &updates, sizeof(unsigned char)*3 );
+maze[updates[0]][updates[1]]=updates[2];
+```
+
+Here is a video of the maze updates being sent from one Arduino to another: 
+
+<video width="460" height="270" controls preload> 
+    <source src="resources/updates.mp4"></source> 
 </video>
 
 ### Sending information from base station to FPGA 
