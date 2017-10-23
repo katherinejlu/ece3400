@@ -2,6 +2,7 @@
 # Lab 2
 
 ## Optical Team -- IR Circuit
+Evan, Radhika and Michael
 
 Materials used:
 
@@ -98,6 +99,7 @@ We will need to modify the circuit to include a band pass filter in order to bet
 
 
 ## Acoustic Team:
+TJ, Frannie, and Katherine
 
 Materials used:
 

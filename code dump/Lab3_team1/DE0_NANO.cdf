@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22F17) Path("C:/Users/labuser/Desktop/Lab3_team1/") File("DE0_NANO.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE22F17) Path("C:/Users/labuser/Downloads/ECE-3400-Team-1-master/code dump/Lab3_team1/") File("DE0_NANO.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
