@@ -245,10 +245,27 @@ Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits,
 
 We used an independent module for the reading of data from the Arduino, called inputReader:
 ```
-
+if (led_counter == ONE_SEC) begin
+	led_state   <= ~led_state;
+	led_counter <= 25'b0;
+	if (y==3'b100) begin // you're at the bottom of the grid
+		y<= 3'b0;
+		x<=x+3'b001;
+	end
+	else begin
+		y <= y + 3'b1;
+	end 
+	grid1[x][y] <= 8'b1;
+end
 
 ```
-
+ Here is a video of this incrementation: 
+ <iframe width="560" height="315" src="https://www.youtube.com/watch?v=1VDqtT1vrHk&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
+ 
 We initially struggled to get data to correctly update (our screen update schema was simple - put the robot on the tile the Arduino sent, record all past tiles sent as visited, and make the rest unvisited). We observed that in general, the tiles were flipping to visited in the order we expected, but not at a constant rate. Certain tiles would change colors two at a time. This signaled to us that the FPGA was not reading the data correctly. Because our inputReader module was reading data whenever the valid bit was high, the FPGA was capturing incorrect grid values that occurred when the output bits from the Arduino were flipping. We altered both the Arduino and the FPGA code, to capture Arduino data only on the pos edge of the valid bit, thereby preventing our error.
 
 We were able to successfully communicate information wirelessly from one Arduino to another, then display it on a screen using the FPGA. See the below video:
+
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=SCkJXf7Rw2c&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
+ 
+ 
