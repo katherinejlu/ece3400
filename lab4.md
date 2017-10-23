@@ -24,7 +24,7 @@ As directed in the lab, first, we downloaded the RF24 arduino library. Then, to 
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t pipes[2] = { 0x0000000002LL, 0x0000000003LL };
 ```
-We first tested the sample code that was provided to us. We set up one arduino to be the transmitter by typing 'T' into the serial monitor of that arduino. The other arduino automatically became a reciever. The sample code was written to sentd the time at which the data was being sent to the reciever. If the data was successfully sent, the transmitter then waits on a confirmation from the reciever. The  This is reflected in the following code:
+We first tested the sample code that was provided to us. We set up one arduino to be the transmitter by typing 'T' into the serial monitor of that arduino. The other arduino automatically became a reciever. The sample code was written to sentd the time at which the data was being sent to the reciever. If the data was successfully sent, the transmitter then waits on a confirmation from the reciever. If the data wasn't sent successfully, the code tries to send the data again in 1 second. The code has a 200ms timeout value, so if the receiver hasn't confirmed that it has recieved the data in 200 ms, the code prints out a corresponding statement. If the receiver does confirm before timeout, the calculated round-trip delay time is printed out.  This is reflected in the following code:
 
 ```
     unsigned long time = millis();
@@ -64,7 +64,9 @@ We first tested the sample code that was provided to us. We set up one arduino t
     delay(1000);
   }
 ```
+We tried different ranges for sending and receiving data. We didn't see a major drop in successful transmissions until we were almost in 2 separate rooms, so we beleive the range of the radio communication is more than enough for our applications.
 
+In the next steps, we modified the data we were sending between arduinos to reflect simulated maze data.
 
 ### Sending full maze coordinates and maze updates with wireless communication
 To send the full maze coordinates, we altered the code to send a 5x5 array of unsigned chars. When sending and receiving transmissions, the arduino needs to be told what size packet it will be sending or receiving, so the key is to explicitly state what the maze size was when reading and writing data. When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. 
@@ -212,7 +214,7 @@ Instead of bitshifting by 7 bits (dividing by 128 as before, we decided to divid
 
 The squares were now all visible, but the grid would only display 4x4. After reviewing our code for a while, we realized we hadn't updated the registers `GRID_X` and `GRID_Y` to hold enough bits. We changed both of these to 4 bit registers and the grid was now 4x5!
 
-### Changing color based on location
+### Changing color based on loaction
 
 Next, we needed to be able to update the grid to show the current location of the robot, as well as visited locations. To do this, we needed to rework the code from last lab, which had 4 different maps stored in memory. Rather than have each possible map stored in memory, we decided to update the map dynamically.
 
@@ -238,26 +240,7 @@ always @(posedge CLOCK_25) begin
   end
 end
 ```
-After implementing this state machine, we were able to write simple code that caused the monitor to increment through the grid from top to bottom and from left to right. 
- 
- ```
- if (led_counter == ONE_SEC) begin
- 	led_state   <= ~led_state;
- 	led_counter <= 25'b0;
- 	if (y==3'b100) begin // you're at the bottom of the grid
- 		y<= 3'b0;
- 		x<=x+3'b001;
- 	end
- 	else begin
- 		y <= y + 3'b1;
- 	end 
- 	grid1[x][y] <= 8'b1;
- end
- ```
- Here is a video of this incrementation: 
- <iframe width="560" height="315" src="https://www.youtube.com/watch?v=1VDqtT1vrHk&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
- 
- 
+
 ### Explanation of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
 
 With our 'state machine' working properly, it was easy to quickly assign different states to a grid tile and have a record of visited tiles. Our last step was to get the two halves of our assignment working together. We coordinated with the Arduino half of the team to make a protocol for robot position. In this case, we used the simplest possible communication scheme: A 5 bit array, with the first 2 bits representing x position, and the latter 3 representing y position. 
@@ -266,25 +249,10 @@ Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits,
 
 We used an independent module for the reading of data from the Arduino, called inputReader:
 ```
-input valid;
-input [4:0] arduinoInput;
-output reg [1:0] robotX;
-output reg [2:0] robotY;
 
-output reg [1:0] preX;
-output reg [2:0] preY;
-
-always @ (posedge valid) begin
-	preX = robotX;
-	preY = robotY;
-	robotX = arduinoInput[4:3];
-	robotY = arduinoInput[2:0];
-end
 
 ```
 
 We initially struggled to get data to correctly update (our screen update schema was simple - put the robot on the tile the Arduino sent, record all past tiles sent as visited, and make the rest unvisited). We observed that in general, the tiles were flipping to visited in the order we expected, but not at a constant rate. Certain tiles would change colors two at a time. This signaled to us that the FPGA was not reading the data correctly. Because our inputReader module was reading data whenever the valid bit was high, the FPGA was capturing incorrect grid values that occurred when the output bits from the Arduino were flipping. We altered both the Arduino and the FPGA code, to capture Arduino data only on the pos edge of the valid bit, thereby preventing our error.
 
 We were able to successfully communicate information wirelessly from one Arduino to another, then display it on a screen using the FPGA. See the below video:
-
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=SCkJXf7Rw2c&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
