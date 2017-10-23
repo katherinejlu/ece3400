@@ -3,9 +3,7 @@
 # Lab 4
 
 ## Radio Team
-
-### Overview of how wireless communication works/introduction/materials used
-Radhika
+Radhika, Katherine and Evan
 
 ### Introduction 
 For the radio subteam of this lab, our goal was to communicate information between two arduinos through radio communication using two transceivers. We wanted to send simulated maze data from one arduino, which was set up as the transmitter, to another arduino, which was setup as a reciever. We also wanted to observe the range of the radio communication with different power/speed settings and look how many packets were successfully transmitted. 
@@ -106,8 +104,6 @@ Here is a video of one arduino sending the entire maze to another:
 </video>
 
 ### Sending information from base station to FPGA 
-Evan
-
 
 For the final part of the lab, we had to create a system for sending maze information from the Arduino base station to the FPGA. Since the robot was not yet operational, and we had already demonstrated that we can communicate wirelessly between the Arduinos, we generated test robot coordinate data to simulate the robot traversing the maze. Since we were able to demonstrate communication between the Arduinos, and from the Arduino to the base station, it will be relatively straightforward to link all of these devices together. Note that we did not demonstrate the communication of treasure and wall data from the Arduino to the FPGA. We have established a preliminary protocol for transmitting this data, but have not yet demonstrated this in practice. 
 
