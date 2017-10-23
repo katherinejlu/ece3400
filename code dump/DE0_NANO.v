@@ -97,17 +97,14 @@ module DE0_NANO(
 	 
 	//state machine 
 	always @(posedge CLOCK_25) begin
-		if (GRID_X > 3) begin
 		if (GRID_X > 3) begin //colors squares that aren't in the 4x5 grid black
 			PIXEL_COLOR <= black;
 		end
 		else begin
 		currentGrid <= grid1[GRID_X][GRID_Y];
-			if (currentGrid == 0) begin
 			if (currentGrid == 0) begin // if no input, current square white
 				PIXEL_COLOR <= white;
 			end
-			if (currentGrid[0] == 1) begin
 			if (currentGrid[0] == 1) begin //if LSB is 1, current square pink
 				PIXEL_COLOR <= pink;
 			end
