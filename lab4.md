@@ -7,6 +7,65 @@
 ### Overview of how wireless communication works/introduction/materials used
 Radhika
 
+### Introduction 
+For the radio subteam of this lab, our goal was to communicate information between two arduinos through radio communication using two transceivers. We wanted to send simulated maze data from one arduino, which was set up as the transmitter, to another arduino, which was setup as a reciever. We also wanted to observe the range of the radio communication with different power/speed settings and look how many packets were successfully transmitted. 
+
+### Materials Used 
+
+- 2 Nordic nRF24L01+ transceivers
+- 2 Arduino Unos (one was shared with the other sub-team)
+- 2 USB A/B cables
+- 2 radio breakout boards with headers
+
+### Getting Started with the RF24 Transceivers
+As directed in the lab, first, we downloaded the RF24 arduino library. Then, to begin with simple tests of the transceivers, we used the 'Getting Started' code that was provided to us in the lab as opposed to the example code that came with the arduino library. Before we could begin, we had to adjust the identifier numbers for our two pipes using the formula 2(3D + N) + X where D is the day of our lab, N is our team number, and X was 0 and 1 for each of our 2 radios. Our calculated values happened to be 2 and 3,  the same as the ones in the sample code, as shown below:
+
+```
+// Radio pipe addresses for the 2 nodes to communicate.
+const uint64_t pipes[2] = { 0x0000000002LL, 0x0000000003LL };
+```
+We first tested the sample code that was provided to us. We set up one arduino to be the transmitter by typing 'T' into the serial monitor of that arduino. The other arduino automatically became a reciever. The sample code was written to sentd the time at which the data was being sent to the reciever. If the data was successfully sent, the transmitter then waits on a confirmation from the reciever. The  This is reflected in the following code:
+
+```
+    unsigned long time = millis();
+    printf("Now sending %lu...",time);
+    bool ok = radio.write( &time, sizeof(unsigned long) );
+
+    if (ok)
+       printf("ok...");	
+    else
+       printf("failed.\n\r");
+
+    radio.startListening();
+
+// Wait here until we get a response, or timeout (200ms)
+    unsigned long started_waiting_at = millis();
+    bool timeout = false;
+    while ( ! radio.available() && ! timeout )
+      if (millis() - started_waiting_at > 200 )
+        timeout = true;
+
+    // Describe the results
+    if ( timeout )
+    {
+      printf("Failed, response timed out.\n\r");
+    }
+    else
+    {
+      // Grab the response, compare, and send to debugging spew
+      unsigned long got_time;
+      radio.read( &got_time, sizeof(unsigned long) );
+
+      // Spew it
+      printf("Got response %lu, round-trip delay: %lu\n\r",got_time,millis()-got_time);
+    }
+
+    // Try again 1s later
+    delay(1000);
+  }
+```
+
+
 ### Sending full maze coordinates and maze updates with wireless communication
 To send the full maze coordinates, we altered the code to send a 5x5 array of unsigned chars. When sending and receiving transmissions, the arduino needs to be told what size packet it will be sending or receiving, so the key is to explicitly state what the maze size was when reading and writing data. When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. 
 
