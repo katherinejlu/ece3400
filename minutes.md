@@ -31,3 +31,27 @@ We discuss the work we have done on our individual subteams and deliberate on ho
 Optical team realizes they have not made the modifications necessary to make the Arduino light an LED in response to incident IR light, so we discuss when we can meet to work on that objective.
 The robotics team explains that our robot is able to stop at junctions with extreme accuracy, but it is having trouble following a line.  We figure the reason the robot is having this trouble is because the servos that run the two wheels are not operating at the same speed.  The robotics team adds that the robot is having trouble moving forward in a straight line even when it is not attempting to follow a line, which further confirms our hypothesis. 
 The meeting is adjourned at 12:06PM
+
+### 9/29 Meeting
+11:20 AM, Hollister B11
+
+Present: Evan, TJ, Frannie, Radhika, Katherine, Michael
+Absent: None
+
+1. Discussed buying new IR sensor that uses digital pins
+	a. Pros: 
+		i. only uses one digital pin, rather than 3-4 analog pins
+		ii. Makes line following easier
+	b. Cons: 
+		i. Costs go towards our budget
+	c. Radhika will email Kirstin to try to buy part
+2. Explained Finite State Machine
+	a. Need a method where the input is a Direction enum, and it will turn and follow a line until the next junction.
+3. Chose teams for lab 3
+	a. Acoustic team: TJ, Michael, Frannie
+	b. Graphics team: Katherine, Radhika, Evan
+
+Motion to Adjourn: TJ
+Seconded: Evan
+MEETING ADJOURNED at 12:05 PM
+
