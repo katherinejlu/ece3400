@@ -8,7 +8,41 @@
 Radhika
 
 ### Sending full maze coordinates and maze updates with wireless communication
-Katherine
+To send the full maze coordinates, we altered the code to send a 5x5 array of unsigned chars. When sending and receiving transmissions, the arduino needs to be told what size packet it will be sending or receiving, so the key is to explicitly state what the maze size was when reading and writing data. When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. 
+
+So for sending and receiving  a 5x5 array: 
+
+```
+unsigned char maze[5][5] =
+{
+3, 3, 3, 3, 3,
+3, 1, 1, 1, 3,
+3, 2, 0, 1, 2,
+3, 1, 3, 1, 3,
+3, 0, 3, 1, 0,
+};
+
+//sending 
+bool ok = radio.write( &updates, sizeof(unsigned char)*25);
+//receiving 
+bool done = radio.read( &updates, sizeof(unsigned char)*25);
+```
+
+We noticed that when we increased the packet size, more packets of information were being dropped or taking too long to transmit, so we also played around with higher data rates and power levels. 
+
+```
+  // set the power
+  // RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_MED=-6dBM, and RF24_PA_HIGH=0dBm.
+  radio.setPALevel(RF24_PA_MED);
+  //RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
+  radio.setDataRate(RF24_2MBPS);
+```
+
+Here is a video of one arduino sending the entire maze to another: 
+
+<video width="460" height="270" controls preload> 
+    <source src="resources/maze.mp4"></source> 
+</video>
 
 ### Sending information from base station to FPGA 
 Evan
@@ -31,6 +65,11 @@ String inputSignals[32] = {
                         "00110", "01110", "10110", "11110",
                         "00111", "01111", "10111", "11111",
                         };
+
+                        
+void generateClock(){
+  
+}
 
                         
 void setup() {
@@ -76,7 +115,7 @@ void writeWord(String signalWord){
 
 As discussed, the maze coordinate are encoded in a 5 bit word. In the Arduino code, we hard coded all 20 maze coordinates that the robot could possibly reach. This can be seen when we instantiate the `inputSignals` array. 
 
-Since the FPGA reads this word on the rising edge of a clock, we had to create a 1-bit psuedo-clock signal in Arduino that is sychronized to change when we are ready to read the data. This is done in the `sendWord` method. Pin 2 corresponds to our "clock". We write a `LOW` value to the clock pin, and then wait `setupTime` amount of milliseconds before proceeding to actually write the coordinates to pins 7-3. We wait `setupTime` milliseconds before flipping the clock to a `HIGH` signal. Our thinking was that there is some propagation delay in the circuit. 50 milliseconds is plenty of time for the signal to set up, and for the FPGA to sample the correct value. If we didn't clock our signal, then we would run into issues sampling the signal when it is transitioning between values. 
+Since the FPGA reads this word on the rising edge of a clock, we had to create a psuedo-clock 1-bit signal in Arduino that is sychronized to change when we are ready to read the data. This is done in the `sendWord` method. Pin 2 corresponds to our "clock". We write a `LOW` value to the clock pin, and then wait `setupTime` amount of milliseconds before proceeding to actually write the coordinates to pins 7-3. We wait `setupTime` milliseconds before flipping the clock to a `HIGH` signal. Our thinking was that there is some propagation delay in the circuit. 50 milliseconds is plenty of time for the signal to set up, and for the FPGA to sample the correct value. If we didn't clock our signal, then we would run into issues sampling the signal when it is transitioning between values. 
 
 The `writeWord` method is relatively straightforwards. It simply iterates through the word string, and then writes the values to the appropriate pin. 
 
@@ -141,26 +180,7 @@ always @(posedge CLOCK_25) begin
 end
 ```
 
-After implementing this state machine, we were able to write simple code that caused the monitor to increment through the grid from top to bottom and from left to right. 
-
-```
-if (led_counter == ONE_SEC) begin
-	led_state   <= ~led_state;
-	led_counter <= 25'b0;
-	if (y==3'b100) begin // you're at the bottom of the grid
-		y<= 3'b0;
-		x<=x+3'b001;
-	end
-	else begin
-		y <= y + 3'b1;
-	end 
-	grid1[x][y] <= 8'b1;
-end
-```
-Here is a video of this incrementation: 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=1VDqtT1vrHk&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
-
-### Explaination of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
+### Explanation of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
 
 With our 'state machine' working properly, it was easy to quickly assign different states to a grid tile and have a record of visited tiles. Our last step was to get the two halves of our assignment working together. We coordinated with the Arduino half of the team to make a protocol for robot position. In this case, we used the simplest possible communication scheme: A 5 bit array, with the first 2 bits representing x position, and the latter 3 representing y position. 
 
@@ -168,25 +188,10 @@ Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits,
 
 We used an independent module for the reading of data from the Arduino, called inputReader:
 ```
-input valid;
-input [4:0] arduinoInput;
-output reg [1:0] robotX;
-output reg [2:0] robotY;
 
-output reg [1:0] preX;
-output reg [2:0] preY;
-
-always @ (posedge valid) begin
-  preX = robotX;
-  preY = robotY;
-  robotX = arduinoInput[4:3];
-  robotY = arduinoInput[2:0];
-end
 
 ```
 
 We initially struggled to get data to correctly update (our screen update schema was simple - put the robot on the tile the Arduino sent, record all past tiles sent as visited, and make the rest unvisited). We observed that in general, the tiles were flipping to visited in the order we expected, but not at a constant rate. Certain tiles would change colors two at a time. This signaled to us that the FPGA was not reading the data correctly. Because our inputReader module was reading data whenever the valid bit was high, the FPGA was capturing incorrect grid values that occurred when the output bits from the Arduino were flipping. We altered both the Arduino and the FPGA code, to capture Arduino data only on the pos edge of the valid bit, thereby preventing our error.
 
 We were able to successfully communicate information wirelessly from one Arduino to another, then display it on a screen using the FPGA. See the below video:
-
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=SCkJXf7Rw2c&feature=youtu.be" frameborder="0" allowfullscreen></iframe>
