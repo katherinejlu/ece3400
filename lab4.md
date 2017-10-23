@@ -222,30 +222,30 @@ reg[7:0] currentGrid;
    
 //state machine 
 always @(posedge CLOCK_25) begin
-  if (GRID_X > 3) begin //colors squares that aren't in the 4x5 grid black
+  if (GRID_X > 3) begin //colors squares that aren't in the 4x5 grid black (unreachable)
     PIXEL_COLOR <= black;
   end
   else begin
   currentGrid <= grid1[GRID_X][GRID_Y];
-    if (currentGrid == 0) begin //if no input, color current square white
+    if (currentGrid == 0) begin //if no input, color current square white (unvisited)
       PIXEL_COLOR <= white;
     end
-    if (currentGrid[0] == 1) begin //if LSB is 1, color current square pink
+    if (currentGrid[0] == 1) begin //if LSB is 1, color current square pink (visited)
       PIXEL_COLOR <= pink;
     end
   end
 end
 ```
 
-### Explanation of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
+We then created a quick test to determine whether our implementation could receive inputs over time, update the grid and remember previous locations.
 
-With our 'state machine' working properly, it was easy to quickly assign different states to a grid tile and have a record of visited tiles. Our last step was to get the two halves of our assignment working together. We coordinated with the Arduino half of the team to make a protocol for robot position. In this case, we used the simplest possible communication scheme: A 5 bit array, with the first 2 bits representing x position, and the latter 3 representing y position. 
+We created two registers to encode x and y locations, and used the one second timer to update x and y. Then the square in the grid at location (x,y) was assigned `8'b1` which corresponded to a visited square in our FSM.
 
-Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits, one valid bit). This setup took a frustrating amount of time, because the DE0 Nano datasheet's pinout diagram for GPIO-1 is unintuitive (to put it lightly). Once our pins were indeed hooked up correctly (this took a lot of oscilloscope debugging on our part), we worked on properly interpreting messages from the Arduino.
-
-We used an independent module for the reading of data from the Arduino, called inputReader:
 ```
-if (led_counter == ONE_SEC) begin
+reg[2:0] x;
+reg[2:0] y;
+
+if (led_counter == ONE_SEC) begin 
 	led_state   <= ~led_state;
 	led_counter <= 25'b0;
 	if (y==3'b100) begin // you're at the bottom of the grid
@@ -264,7 +264,41 @@ end
 <video width="460" height="270" controls preload> 
     <source src="resources/first.mp4"></source> 
 </video>
- 
+
+### FPGA Communication with Arduino
+
+With our 'state machine' working properly, it was easy to quickly assign different states to a grid tile and have a record of visited tiles. Our last step was to get the two halves of our assignment working together. We coordinated with the Arduino half of the team to make a protocol for robot position. In this case, we used the simplest possible communication scheme: A 5 bit array, with the first 2 bits representing x position, and the latter 3 representing y position. 
+
+Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits, one valid bit). This setup took a frustrating amount of time, because the DE0 Nano datasheet's pinout diagram for GPIO-1 is unintuitive (to put it lightly). Once our pins were indeed hooked up correctly (this took a lot of oscilloscope debugging on our part), we worked on properly interpreting messages from the Arduino.
+
+We used an independent module for the reading of data from the Arduino, called inputReader:
+
+ ```
+ module inputReader(
+valid,
+arduinoInput,
+robotX,
+robotY,
+preX,
+preY);
+
+input valid;
+input [4:0] arduinoInput;
+output reg [1:0] robotX;
+output reg [2:0] robotY;
+
+output reg [1:0] preX;
+output reg [2:0] preY;
+
+always @ (posedge valid) begin
+	preX = robotX;
+	preY = robotY;
+	robotX = arduinoInput[4:3];
+	robotY = arduinoInput[2:0];
+end
+
+endmodule
+```
  
 We initially struggled to get data to correctly update (our screen update schema was simple - put the robot on the tile the Arduino sent, record all past tiles sent as visited, and make the rest unvisited). We observed that in general, the tiles were flipping to visited in the order we expected, but not at a constant rate. Certain tiles would change colors two at a time. This signaled to us that the FPGA was not reading the data correctly. Because our inputReader module was reading data whenever the valid bit was high, the FPGA was capturing incorrect grid values that occurred when the output bits from the Arduino were flipping. We altered both the Arduino and the FPGA code, to capture Arduino data only on the pos edge of the valid bit, thereby preventing our error.
 
