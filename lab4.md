@@ -108,19 +108,43 @@ Changing our grid size was a fairly simple process, but did require some trouble
 
 When we uploaded the code to the FPGA, the squares were too large to view the full grid.  Thus, we changed the always block in our `GridSelector` module to the following:
 
-'''
+```
 always @ (*) begin
 	GRID_X = PIXEL_COORD_X / 96;
 	GRID_Y = PIXEL_COORD_Y / 96;
 end
-'''
+```
 
-Instead of bitshifting by 7 bits (dividing by 128), we decided to divide by 96, since the height of the monitor is 480 pixels. 480 pixels / 5 squares = 96 pixels / square.
+Instead of bitshifting by 7 bits (dividing by 128 as before, we decided to divide by 96, since the height of the monitor is 480 pixels. 480 pixels / 5 squares = 96 pixels / square.
 
 The squares were now all visible, but the grid would only display 4x4. After reviewing our code for a while, we realized we hadn't updated the registers `GRID_X` and `GRID_Y` to hold enough bits. We changed both of these to 4 bit registers and the grid was now 4x5!
 
 ### Changing color based on loaction
 
+Next, we needed to be able to update the grid to show the current location of the robot, as well as visited locations. To do this, we needed to rework the code from last lab, which had 4 different maps stored in memory. Rather than have each possible map stored in memory, we decided to update the map dynamically.
+
+To accomplish this, we created the following state machine:
+
+```
+reg[7:0] grid1[3:0][4:0];
+reg[7:0] currentGrid;
+   
+//state machine 
+always @(posedge CLOCK_25) begin
+  if (GRID_X > 3) begin //colors squares that aren't in the 4x5 grid black
+    PIXEL_COLOR <= black;
+  end
+  else begin
+  currentGrid <= grid1[GRID_X][GRID_Y];
+    if (currentGrid == 0) begin //if no input, color current square white
+      PIXEL_COLOR <= white;
+    end
+    if (currentGrid[0] == 1) begin //if LSB is 1, color current square pink
+      PIXEL_COLOR <= pink;
+    end
+  end
+end
+```
 
 
 ### Explaination of the FPGA working with the Arduino, the challenges we faced, the resistor array, pins, etc.
