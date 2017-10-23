@@ -154,7 +154,20 @@ Our FPGA was hooked up directly to the Arduino by a set of 6 wires (5 data bits,
 
 We used an independent module for the reading of data from the Arduino, called inputReader:
 ```
+input valid;
+input [4:0] arduinoInput;
+output reg [1:0] robotX;
+output reg [2:0] robotY;
 
+output reg [1:0] preX;
+output reg [2:0] preY;
+
+always @ (posedge valid) begin
+  preX = robotX;
+  preY = robotY;
+  robotX = arduinoInput[4:3];
+  robotY = arduinoInput[2:0];
+end
 
 ```
 
