@@ -85,7 +85,7 @@ Since the FPGA reads this word on the rising edge of a clock, we had to create a
 
 The `writeWord` method is relatively straightforwards. It simply iterates through the word string, and then writes the values to the appropriate pin. 
 
-The output pins corresponding to the coordinate data and clock were connected to voltage divider in order to be sent to the FPGA (to be discussed in next section).
+The output pins corresponding to the coordinate data and clock (digital pins 7-2) were connected to a voltage divider array in order to be sent to the FPGA (to be discussed in next section).
 
 
 
