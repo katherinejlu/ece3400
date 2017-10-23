@@ -114,7 +114,7 @@ Instead of bitshifting by 7 bits (dividing by 128 as before, we decided to divid
 
 The squares were now all visible, but the grid would only display 4x4. After reviewing our code for a while, we realized we hadn't updated the registers `GRID_X` and `GRID_Y` to hold enough bits. We changed both of these to 4 bit registers and the grid was now 4x5!
 
-### Changing color based on loaction
+### Changing color based on location
 
 Next, we needed to be able to update the grid to show the current location of the robot, as well as visited locations. To do this, we needed to rework the code from last lab, which had 4 different maps stored in memory. Rather than have each possible map stored in memory, we decided to update the map dynamically.
 
