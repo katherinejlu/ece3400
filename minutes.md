@@ -30,6 +30,7 @@ Absent: Radhika, due to illness.  We hope she feels better soon :(
 We discuss the work we have done on our individual subteams and deliberate on how to tackle the rest of the objectives related to lab 2 and milestone 1. 
 Optical team realizes they have not made the modifications necessary to make the Arduino light an LED in response to incident IR light, so we discuss when we can meet to work on that objective.
 The robotics team explains that our robot is able to stop at junctions with extreme accuracy, but it is having trouble following a line.  We figure the reason the robot is having this trouble is because the servos that run the two wheels are not operating at the same speed.  The robotics team adds that the robot is having trouble moving forward in a straight line even when it is not attempting to follow a line, which further confirms our hypothesis. 
+
 The meeting is adjourned at 12:06PM
 
 ### 9/29 Meeting
@@ -57,28 +58,31 @@ MEETING ADJOURNED at 12:05 PM
 11:20 AM, Hollister B11
 
 Present: Evan, TJ, Frannie, Radhika, Katherine, Michael
+
 Absent: None
 
 1. Lab today
-	a. Working to combine the VGA and wireless communication teams
-	b. Need to do integration part, update maze part
-	c. Idea is to send 2 8-bit arrays
+	* Working to combine the VGA and wireless communication teams
+	* Need to do integration part, update maze part
+	* Idea is to send 2 8-bit arrays
 2. Milestone 3 due Monday Oct 30th
-	a. Need:
-		i. Working algorithm that explores maze
-		ii. Indication that robot is done
-		iii. In real life and in simulation
-	b. To do:
-		i. Line sensing, following and turning - Katherine and Radhika
-		ii. Editing chassis and wall sensors - Michael, Frannie
-		iii. Compiling code for full robot - TJ, Evan
+	* Need:
+		* Working algorithm that explores maze
+		* Indication that robot is done
+		* In real life and in simulation
+	* To do:
+		* Line sensing, following and turning - Katherine and Radhika
+		* Editing chassis and wall sensors - Michael, Frannie
+		* Compiling code for full robot - TJ, Evan
 3. Future work
-	a. PCB stuff - Michael, TJ, Katherine
-	b. Algorithm - Radhika, Frannie
-	c. Update website - Katherine, Evan
+	* PCB stuff - Michael, TJ, Katherine
+	* Algorithm - Radhika, Frannie
+	* Update website - Katherine, Evan
 
 Motion to Adjourn: TJ
+
 Seconded: Evan
+
 MEETING ADJOURNED at 12:05 PM
 
 
