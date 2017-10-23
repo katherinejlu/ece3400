@@ -1,4 +1,4 @@
-[Home](./README.md) 
+[Home](./homepage.md) 
 
 # Lab 4
 
@@ -98,7 +98,7 @@ Here is a video of one arduino sending the entire maze to another:
 </video>
 
 ##### For sending and receiving maze updates via individual coordinate points: 
-When sending maze updates, one arduino just sent a 1x3 array of unsigned chars--the first two being the maze coordinate, and the new information that corresponded with that data point. The second arduino had a 5x5 maze array intitalized so that the correct coordinate could be updated to reflect the incoming information as it was received. 
+When sending maze updates, one arduino sent a 1x3 array of unsigned chars--the first two chars being the maze coordinates, and the third being new information that corresponded with that data point. The second arduino had a 5x5 maze array intitalized on it so that the correct coordinate could be updated to reflect the incoming information as it was received. 
 
 ```
 //random coordinate and data values were assigned
@@ -120,6 +120,7 @@ Here is a video of the maze updates being sent from one Arduino to another:
 <video width="460" height="270" controls preload> 
     <source src="resources/updates.mp4"></source> 
 </video>
+
 
 ### Sending information from base station to FPGA 
 
