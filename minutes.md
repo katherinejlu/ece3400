@@ -39,19 +39,46 @@ Present: Evan, TJ, Frannie, Radhika, Katherine, Michael
 Absent: None
 
 1. Discussed buying new IR sensor that uses digital pins
-	a. Pros: 
-		i. only uses one digital pin, rather than 3-4 analog pins
-		ii. Makes line following easier
-	b. Cons: 
-		i. Costs go towards our budget
-	c. Radhika will email Kirstin to try to buy part
+	* Pros: 
+		* only uses one digital pin, rather than 3-4 analog pins
+		* Makes line following easier
+	* Cons: 
+		* Costs go towards our budget
+	* Radhika will email Kirstin to try to buy part
 2. Explained Finite State Machine
-	a. Need a method where the input is a Direction enum, and it will turn and follow a line until the next junction.
+	* Need a method where the input is a Direction enum, and it will turn and follow a line until the next junction.
 3. Chose teams for lab 3
-	a. Acoustic team: TJ, Michael, Frannie
-	b. Graphics team: Katherine, Radhika, Evan
+	* Acoustic team: TJ, Michael, Frannie
+	* Graphics team: Katherine, Radhika, Evan
+
+MEETING ADJOURNED at 12:05 PM
+
+### 10/20 Meeting
+11:20 AM, Hollister B11
+
+Present: Evan, TJ, Frannie, Radhika, Katherine, Michael
+Absent: None
+
+1. Lab today
+	a. Working to combine the VGA and wireless communication teams
+	b. Need to do integration part, update maze part
+	c. Idea is to send 2 8-bit arrays
+2. Milestone 3 due Monday Oct 30th
+	a. Need:
+		i. Working algorithm that explores maze
+		ii. Indication that robot is done
+		iii. In real life and in simulation
+	b. To do:
+		i. Line sensing, following and turning - Katherine and Radhika
+		ii. Editing chassis and wall sensors - Michael, Frannie
+		iii. Compiling code for full robot - TJ, Evan
+3. Future work
+	a. PCB stuff - Michael, TJ, Katherine
+	b. Algorithm - Radhika, Frannie
+	c. Update website - Katherine, Evan
 
 Motion to Adjourn: TJ
 Seconded: Evan
 MEETING ADJOURNED at 12:05 PM
+
 
