@@ -6,8 +6,8 @@ Servo servoL;
 Servo servoR;
 
 // Change the values below to suit your robot's motors, weight, wheel type, etc.
-#define KP .02
-#define KD 1
+#define KP 0.1
+#define KD 0.3
 #define Lspeed 180
 #define Rspeed 83
 #define ML_MAX_SPEED 180
@@ -60,8 +60,11 @@ void loop()
 //  Serial.print('\t');
 //  Serial.println(motorSpeed);
   lastError = error;
-
-  int leftMotorSpeed = Lspeed + motorSpeed;
+  if (error > 900 && error < 1100) {
+    motorSpeed = 0; 
+  }
+  
+  int leftMotorSpeed = Lspeed + motorSpeed*1.2;
   int rightMotorSpeed = Rspeed + motorSpeed;
 
   // set motor speeds using the two motor speed variables above
@@ -82,6 +85,3 @@ void set_motors(int motor1speed, int motor2speed)
   servoL.write(motor1speed);     // set motor speed
   servoR.write(motor2speed);     // set motor speed
 }
-
-
-
