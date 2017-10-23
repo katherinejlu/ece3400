@@ -55,22 +55,30 @@ void loop()
   int position = qtrrc.readLine(sensors);
   int error = position - 1000;
 
-  int motorSpeed = KP * error + KD * (error - lastError);
-//  Serial.print(position);
-//  Serial.print('\t');
-//  Serial.println(motorSpeed);
-  lastError = error;
-  if (error > 900 && error < 1100) {
-    motorSpeed = 0; 
+  if(sensors[0]>800 && sensors[1] >800 &&sensors[2] >800){
+    int leftMotorSpeed = 90;
+    int rightMotorSpeed = 90;
+    set_motors(leftMotorSpeed, rightMotorSpeed);
+    delay(200);
   }
-  
-  int leftMotorSpeed = Lspeed + motorSpeed*1.2;
-  int rightMotorSpeed = Rspeed + motorSpeed;
-
+  else{
+    int motorSpeed = KP * error + KD * (error - lastError);
+  //  Serial.print(position);
+  //  Serial.print('\t');
+  //  Serial.println(motorSpeed);
+    lastError = error;
+    if (error > 900 && error < 1100) {
+      motorSpeed = 0; 
+    }
+    
+    int leftMotorSpeed = Lspeed + motorSpeed*1.2;
+    int rightMotorSpeed = Rspeed + motorSpeed;
+     set_motors(leftMotorSpeed, rightMotorSpeed);
+  }
   // set motor speeds using the two motor speed variables above
   Serial.print(position);
   Serial.print('\t');
-  set_motors(leftMotorSpeed, rightMotorSpeed);
+ 
 }
 
 void set_motors(int motor1speed, int motor2speed)
