@@ -22,7 +22,7 @@ As directed in the lab, first, we downloaded the RF24 arduino library. Then, to 
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t pipes[2] = { 0x0000000002LL, 0x0000000003LL };
 ```
-We first tested the sample code that was provided to us. We set up one arduino to be the transmitter by typing 'T' into the serial monitor of that arduino. The other arduino automatically became a reciever. The sample code was written to sentd the time at which the data was being sent to the reciever. If the data was successfully sent, the transmitter then waits on a confirmation from the reciever. If the data wasn't sent successfully, the code tries to send the data again in 1 second. The code has a 200ms timeout value, so if the receiver hasn't confirmed that it has recieved the data in 200 ms, the code prints out a corresponding statement. If the receiver does confirm before timeout, the calculated round-trip delay time is printed out.  This is reflected in the following code:
+We first tested the sample code that was provided to us. We set up one arduino to be the transmitter by typing 'T' into the serial monitor of that arduino. The other arduino automatically became a reciever. The sample code was written to sent the time at which the data was being sent to the reciever. If the data was successfully sent, the transmitter then waits on a confirmation from the reciever. If the data wasn't sent successfully, the code tries to send the data again in 1 second. The code has a 200ms timeout value, so if the receiver hasn't confirmed that it has recieved the data in 200 ms, the code prints out a corresponding statement. If the receiver does confirm before timeout, the calculated round-trip delay time is printed out.  This is reflected in the following code:
 
 ```
     unsigned long time = millis();
@@ -62,7 +62,7 @@ We first tested the sample code that was provided to us. We set up one arduino t
     delay(1000);
   }
 ```
-We tried different ranges for sending and receiving data. We didn't see a major drop in successful transmissions until we were almost in 2 separate rooms, so we beleive the range of the radio communication is more than enough for our applications.
+We tried different ranges for sending and receiving data. We didn't see a major drop in successful transmissions until we were almost in 2 separate rooms, so we believe the range of the radio communication is more than enough for our applications.
 
 In the next steps, we modified the data we were sending between arduinos to reflect simulated maze data.
 
@@ -98,7 +98,7 @@ Here is a video of one arduino sending the entire maze to another:
 </video>
 
 ##### For sending and receiving maze updates via individual coordinate points: 
-When sending maze updates, one arduino sent a 1x3 array of unsigned chars--the first two chars being the maze coordinates, and the third being new information that corresponded with that data point. The second arduino had a 5x5 maze array intitalized on it so that the correct coordinate could be updated to reflect the incoming information as it was received. 
+When sending maze updates, one arduino sent a 1x3 array of unsigned chars--the first two chars being the maze coordinates, and the third being new information that corresponded with that data point. The second arduino had a 5x5 maze array initialized on it so that the correct coordinate could be updated to reflect the incoming information as it was received. 
 
 ```
 //random coordinate and data values were assigned
@@ -191,7 +191,7 @@ void writeWord(String signalWord){
 
 As discussed, the maze coordinate are encoded in a 5 bit word. In the Arduino code, we hard coded all 20 maze coordinates that the robot could possibly reach. This can be seen when we instantiate the `inputSignals` array. 
 
-Since the FPGA reads this word on the rising edge of a clock, we had to create a psuedo-clock 1-bit signal in Arduino that is sychronized to change when we are ready to read the data. This is done in the `sendWord` method. Pin 2 corresponds to our "clock". We write a `LOW` value to the clock pin, and then wait `setupTime` amount of milliseconds before proceeding to actually write the coordinates to pins 7-3. We wait `setupTime` milliseconds before flipping the clock to a `HIGH` signal. Our thinking was that there is some propagation delay in the circuit. 50 milliseconds is plenty of time for the signal to set up, and for the FPGA to sample the correct value. If we didn't clock our signal, then we would run into issues sampling the signal when it is transitioning between values. 
+Since the FPGA reads this word on the rising edge of a clock, we had to create a 1-bit psuedo-clock signal in Arduino that is sychronized to change when we are ready to read the data. This is done in the `sendWord` method. Pin 2 corresponds to our "clock". We write a `LOW` value to the clock pin, and then wait `setupTime` amount of milliseconds before proceeding to actually write the coordinates to pins 7-3. We wait `setupTime` milliseconds before flipping the clock to a `HIGH` signal. Our thinking was that there is some propagation delay in the circuit. 50 milliseconds is plenty of time for the signal to set up, and for the FPGA to sample the correct value. If we didn't clock our signal, then we would run into issues sampling the signal when it is transitioning between values. 
 
 The `writeWord` method is relatively straightforwards. It simply iterates through the word string, and then writes the values to the appropriate pin. 
 
@@ -225,7 +225,7 @@ always @ (*) begin
 end
 ```
 
-Instead of bitshifting by 7 bits (dividing by 128 as before, we decided to divide by 96, since the height of the monitor is 480 pixels. 480 pixels / 5 squares = 96 pixels / square.
+Instead of bitshifting by 7 bits (dividing by 128 as before), we decided to divide by 96, since the height of the monitor is 480 pixels. 480 pixels / 5 squares = 96 pixels / square.
 
 The squares were now all visible, but the grid would only display 4x4. After reviewing our code for a while, we realized we hadn't updated the registers `GRID_X` and `GRID_Y` to hold enough bits. We changed both of these to 4 bit registers and the grid was now 4x5!
 
